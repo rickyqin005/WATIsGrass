@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@datastructures-js/priority-queue": "^6.3.1",
     "@types/google.maps": "^3.55.12",
+    "geolib": "^3.3.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

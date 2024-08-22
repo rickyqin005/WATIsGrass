@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
-import geojson from './UW_paths.json';
+import geoJson from './UW_paths.json';
+import Dijkstra from './dijkstra';
+console.log(Dijkstra);
 
 function App() {
 	React.useEffect(() => {
@@ -20,8 +22,8 @@ function App() {
 				mapId: 'map1'
 			});
 
-			const lines = { ...geojson,
-				features: geojson.features.filter(f => f.geometry.type == 'LineString')
+			const lines = { ...geoJson,
+				features: geoJson.features.filter(f => f.geometry.type == 'LineString')
 			};
 			map.data.addGeoJson(lines);
 			map.data.setStyle(feature => {
