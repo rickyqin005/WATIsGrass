@@ -64,38 +64,65 @@ export class TransferPoint {
     }
 };
 
-// for dijkstra's algorithm
-interface Node {
-    location: Location,
-    distance: number,
-    floorsAscended: number,
-    floorsDescended: number,
-}
+//<-------------------- for dijkstra's algorithm ------------------------------>
 
-const compareNodes: ICompare<Node> = (a: Node, b: Node) => {
+export class AdjacencyList {
+    _map: Map<String, Location[]>;
+
+    constructor() {
+        this._map = new Map();
+    }
+
+    addBidirectionalEdge(edge: Edge) {
+        const startStr = edge.start.toString();
+        const endStr = edge.end.toString();
+        if(this._map.get(startStr) == undefined) this._map.set(startStr, []);
+        this._map.get(startStr)?.push(edge.end);
+        if(this._map.get(endStr) == undefined) this._map.set(endStr, []);
+        this._map.get(endStr)?.push(edge.start);
+    }
+};
+
+export class GraphLocation {
+    location: Location;
+    prevLocation: Location | null;
+    travelMode: string | null;// type of path to get from prevLocation to location
+    distance: number;
+    floorsAscended: number;
+    floorsDescended: number;
+
+    constructor(loc: Location, prevLoc = null as Location | null, travelMode = null as string | null,
+        dist = 0, floorsAsc = 0, floorsDesc = 0) {
+        this.location = loc;
+        this.prevLocation = prevLoc;
+        this.travelMode = travelMode;
+        this.distance = dist;
+        this.floorsAscended = floorsAsc;
+        this.floorsDescended = floorsDesc;
+    }
+};
+
+const compareGraphLocations: ICompare<GraphLocation> = (a: GraphLocation, b: GraphLocation) => {
     return (a.distance < b.distance ? -1 : 1);
 }
 
 export default function calculateRoute(start: Location, end: Location) {
-    const NodesQueue = new PriorityQueue<Node>(compareNodes);
-    NodesQueue.push({
-        location: start,
-        distance: 0,
-        floorsAscended: 0,
-        floorsDescended: 0
-    });
-    while(!NodesQueue.isEmpty()) {
-        NodesQueue.pop();
+    const pq = new PriorityQueue<GraphLocation>(compareGraphLocations);
+    pq.push(new GraphLocation(start));
+    while(!pq.isEmpty()) {
+        pq.pop();
     }
 }
 
-const adjList: Map<String, Location[]> = new Map();
+const adjList = new AdjacencyList();
 
 const transferPoints = geoJson.features
 .filter(f => f.geometry.type == 'Point' && f.properties.type == 'stairs')
 .map(f => new TransferPoint(
     toCoordinate(f.geometry.coordinates as [number, number]), f.properties.connections as BuildingFloor[]
 ));
+
+// add lines to adj list
 const edges = geoJson.features.filter(f => f.geometry.type == 'LineString')
 .map(f => {
     let edges: Edge[] = [];
@@ -125,12 +152,18 @@ const edges = geoJson.features.filter(f => f.geometry.type == 'LineString')
     }
     return edges;
 }).flat();
-edges.forEach(edge => {
-    const startStr = edge.start.toString();
-    const endStr = edge.end.toString();
-    if(adjList.get(startStr) == undefined) adjList.set(startStr, []);
-    adjList.get(startStr)?.push(edge.end);
-});
+edges.forEach(edge => adjList.addBidirectionalEdge(edge));
+
+// add 'open' and 'door' to adj list
+geoJson.features.filter(f => f.properties.type == 'open' || f.properties.type == 'door')
+.forEach(f => {
+    const coord = toCoordinate(f.geometry.coordinates as [number, number]);
+    adjList.addBidirectionalEdge(new Edge(
+        new Location(coord, f.properties.start as BuildingFloor),
+        new Location(coord, f.properties.end as BuildingFloor),
+        0
+    ));
+})
 
 console.log(transferPoints);
 console.log(edges);

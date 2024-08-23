@@ -467,7 +467,15 @@
     {
       "type": "Feature",
       "properties": {
-        "type": "door"
+        "type": "door",
+        "start": {
+          "buildingCode": "EV2",
+          "floor": "1"
+        },
+        "end": {
+          "buildingCode": "EV3",
+          "floor": "1"
+        }
       },
       "geometry": {
         "coordinates": [
@@ -905,7 +913,15 @@
     {
       "type": "Feature",
       "properties": {
-        "type": "door"
+        "type": "door",
+        "start": {
+          "buildingCode": "B1",
+          "floor": "2"
+        },
+        "end": {
+          "buildingCode": "ESC",
+          "floor": "2"
+        }
       },
       "geometry": {
         "coordinates": [
@@ -1079,7 +1095,15 @@
     {
       "type": "Feature",
       "properties": {
-        "type": "door"
+        "type": "door",
+        "start": {
+          "buildingCode": "EIT",
+          "floor": "3"
+        },
+        "end": {
+          "buildingCode": "PHY",
+          "floor": "3"
+        }
       },
       "geometry": {
         "coordinates": [
@@ -1093,7 +1117,15 @@
     {
       "type": "Feature",
       "properties": {
-        "type": "door"
+        "type": "door",
+        "start": {
+          "buildingCode": "DWE",
+          "floor": "3"
+        },
+        "end": {
+          "buildingCode": "CPH",
+          "floor": "3"
+        }
       },
       "geometry": {
         "coordinates": [
@@ -1147,7 +1179,15 @@
     {
       "type": "Feature",
       "properties": {
-        "type": "door"
+        "type": "door",
+        "start": {
+          "buildingCode": "B2",
+          "floor": "2"
+        },
+        "end": {
+          "buildingCode": "STC",
+          "floor": "2"
+        }
       },
       "geometry": {
         "coordinates": [
@@ -2153,7 +2193,15 @@
     {
       "type": "Feature",
       "properties": {
-        "type": "open"
+        "type": "open",
+        "start": {
+          "buildingCode": "E3",
+          "floor": "1"
+        },
+        "end": {
+          "buildingCode": "E2",
+          "floor": "2"
+        }
       },
       "geometry": {
         "coordinates": [
@@ -2339,7 +2387,15 @@
     {
       "type": "Feature",
       "properties": {
-        "type": "door"
+        "type": "door",
+        "start": {
+          "buildingCode": "EV1",
+          "floor": "1"
+        },
+        "end": {
+          "buildingCode": "EV2",
+          "floor": "1"
+        }
       },
       "geometry": {
         "coordinates": [
@@ -2494,16 +2550,14 @@
       "type": "Feature",
       "properties": {
         "type": "open",
-        "connections": [
-          {
-            "buildingCode": "PAC",
-            "floor": "1"
-          },
-          {
-            "buildingCode": "SLC",
-            "floor": "1"
-          }
-        ]
+        "start": {
+          "buildingCode": "PAC",
+          "floor": "1"
+        },
+        "end": {
+          "buildingCode": "SLC",
+          "floor": "1"
+        }
       },
       "geometry": {
         "coordinates": [
@@ -2585,7 +2639,15 @@
     {
       "type": "Feature",
       "properties": {
-        "type": "open"
+        "type": "open",
+        "start": {
+          "buildingCode": "B2",
+          "floor": "2"
+        },
+        "end": {
+          "buildingCode": "B1",
+          "floor": "2"
+        }
       },
       "geometry": {
         "coordinates": [
@@ -2743,7 +2805,15 @@
     {
       "type": "Feature",
       "properties": {
-        "type": "door"
+        "type": "door",
+        "start": {
+          "buildingCode": "HH",
+          "floor": "1"
+        },
+        "end": {
+          "buildingCode": "HH",
+          "floor": "1"
+        }
       },
       "geometry": {
         "coordinates": [
@@ -2793,7 +2863,15 @@
     {
       "type": "Feature",
       "properties": {
-        "type": "open"
+        "type": "open",
+        "start": {
+          "buildingCode": "E7",
+          "floor": "3"
+        },
+        "end": {
+          "buildingCode": "E5",
+          "floor": "3"
+        }
       },
       "geometry": {
         "coordinates": [
@@ -2939,7 +3017,15 @@
     {
       "type": "Feature",
       "properties": {
-        "type": "door"
+        "type": "door",
+        "start": {
+          "buildingCode": "E2",
+          "floor": "2"
+        },
+        "end": {
+          "buildingCode": "CPH",
+          "floor": "3"
+        }
       },
       "geometry": {
         "coordinates": [
