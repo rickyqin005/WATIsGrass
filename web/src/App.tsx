@@ -1,8 +1,15 @@
 import React from 'react';
 import './App.css';
 import geoJson from './UW_paths.json';
-import Dijkstra from './dijkstra';
-console.log(Dijkstra);
+import { Dijkstra, AdjacencyList, Coordinate, BuildingFloor, Location } from './dijkstra';
+console.log(
+    new Dijkstra(new AdjacencyList())
+    .calculateRoute(new Location(
+        new Coordinate([-80.538799, 43.473206]),
+        new BuildingFloor({ buildingCode: 'E6', floor: '3' })), 
+        new Location(new Coordinate([-80.545701, 43.471602]),
+        new BuildingFloor({ buildingCode: 'SLC', floor: '1' })))
+);
 
 function App() {
 	React.useEffect(() => {
