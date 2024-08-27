@@ -2,14 +2,14 @@ import React from 'react';
 import './App.css';
 import geoJson from './UW_paths.json';
 import { Dijkstra, AdjacencyList, Coordinate, BuildingFloor, Location } from './dijkstra';
-console.log(
-    new Dijkstra(new AdjacencyList())
-    .calculateRoute(new Location(
-        new Coordinate([-80.538799, 43.473206]),
-        new BuildingFloor({ buildingCode: 'E6', floor: '3' })), 
-        new Location(new Coordinate([-80.545701, 43.471602]),
-        new BuildingFloor({ buildingCode: 'SLC', floor: '1' })))
-);
+const route = new Dijkstra(new AdjacencyList(geoJson))
+.calculateRoute(new Location(
+	new Coordinate([-80.538799, 43.473206]),
+	new BuildingFloor({ buildingCode: 'E6', floor: '3' })), 
+	new Location(new Coordinate([-80.545701, 43.471602]),
+	new BuildingFloor({ buildingCode: 'SLC', floor: '1' })));
+console.log(route);
+console.log(route?.getDirections());
 
 function App() {
 	React.useEffect(() => {
@@ -54,6 +54,7 @@ function App() {
 
 	return (
 		<div className="App">
+			<div id="input">Hi</div>
 			<div id="map"></div>
 		</div>
 	);

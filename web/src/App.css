@@ -1,4 +1,5 @@
 .App {
+  height: 100vh;
   text-align: center;
 }
 
@@ -24,6 +25,10 @@
   color: white;
 }
 
+#input {
+  height: 10%;
+}
+
 #map {
-  height: 100vh;
+  height: 90%;
 }

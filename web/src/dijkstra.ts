@@ -1,5 +1,4 @@
 import { PriorityQueue, ICompare } from '@datastructures-js/priority-queue';
-import geoJson from './UW_paths.json';
 import { getDistance } from 'geolib';
 const precision = 0.01;
 
@@ -30,6 +29,10 @@ export class BuildingFloor {
     equals(other: BuildingFloor) {
         return this.buildingCode == other.buildingCode && this.floor == other.floor;
     }
+
+    toDirectionString() {
+        return `${this.buildingCode} floor ${this.floor}`;
+    }
 };
 
 export class Location {
@@ -55,26 +58,33 @@ export class Edge {
     readonly start: Location;
     readonly end: Location;
     readonly length: number;
+    readonly floorChange: number;// number of floors up/down
+    readonly type: string;
 
-    constructor(start: Location, end: Location, length: number) {
+    constructor(start: Location, end: Location, length: number, floorChange: number, type: string) {
         this.start = start;
         this.end = end;
         this.length = length;
+        this.floorChange = floorChange;
+        this.type = type;
     }
 };
 
 //<-------------------- for dijkstra's algorithm ------------------------------>
 
 export class AdjacencyList {
+    private readonly _geoJson;
     private readonly _map: Map<String, Edge[]>;
 
-    constructor() {
+    constructor(geoJson) {
+        this._geoJson = geoJson;
         this._map = new Map();
 
         // add lines as edges
         geoJson.features.filter(f => f.geometry.type == 'LineString')
         .map(f => {
             let edges: Edge[] = [];
+            // check if start and end point is at different buildingfloors
             if(!(f.properties.start?.buildingCode == f.properties.end?.buildingCode &&
                 f.properties.start?.floor == f.properties.end?.floor)) {
                 const coords = f.geometry.coordinates.map(coord => new Coordinate(coord as [number, number]));
@@ -86,7 +96,8 @@ export class AdjacencyList {
                 edges.push(new Edge(
                     new Location(coords[0], new BuildingFloor(f.properties.start as BuildingFloor)),
                     new Location(coords[coords.length-1], new BuildingFloor(f.properties.end as BuildingFloor)),
-                    length
+                    length, 0,
+                    f.properties.type
                 ));
             } else {
                 for(let i = 0; i < f.geometry.coordinates.length-1; i++) {
@@ -95,7 +106,8 @@ export class AdjacencyList {
                     edges.push(new Edge(
                         new Location(start, new BuildingFloor(f.properties.start as BuildingFloor)),
                         new Location(end, new BuildingFloor(f.properties.end as BuildingFloor)),
-                        getDistance(start, end, precision)
+                        getDistance(start, end, precision), 0,
+                        f.properties.type
                     ));
                 }
             }
@@ -110,7 +122,8 @@ export class AdjacencyList {
             this._addBidirectionalEdge(new Edge(
                 new Location(coord, new BuildingFloor(f.properties.start as BuildingFloor)),
                 new Location(coord, new BuildingFloor(f.properties.end as BuildingFloor)),
-                0
+                0, 0,
+                f.properties.type
             ));
         })
 
@@ -125,7 +138,8 @@ export class AdjacencyList {
                     this._addBidirectionalEdge(new Edge(
                         new Location(coord, buildingFloors[i]),
                         new Location(coord, buildingFloors[j]),
-                        0
+                        0, j-i,
+                        f.properties.type
                     ));
                 }
             }
@@ -140,7 +154,7 @@ export class AdjacencyList {
         if(this._map.get(startStr) == undefined) this._map.set(startStr, []);
         this._map.get(startStr)?.push(edge);
         if(this._map.get(endStr) == undefined) this._map.set(endStr, []);
-        this._map.get(endStr)?.push(new Edge(edge.end, edge.start, edge.length));
+        this._map.get(endStr)?.push(new Edge(edge.end, edge.start, edge.length, -edge.floorChange, edge.type));
     }
 
     get(location: Location): Edge[] {
@@ -150,20 +164,54 @@ export class AdjacencyList {
 
 export class GraphLocation {
     readonly location: Location;
-    readonly prevLocation: Location | null;
+    readonly prevLocation: GraphLocation | null;
     readonly travelMode: string | null;// type of path to get from prevLocation to location
     readonly distance: number;
+    readonly floorChange: number;
     readonly floorsAscended: number;
     readonly floorsDescended: number;
 
-    constructor(loc: Location, prevLoc = null as Location | null, travelMode = null as string | null,
-        dist = 0, floorsAsc = 0, floorsDesc = 0) {
+    constructor(loc: Location, prevLoc = null as GraphLocation | null, travelMode = null as string | null,
+        dist = 0, floorChange = 0, floorsAsc = 0, floorsDesc = 0) {
         this.location = loc;
         this.prevLocation = prevLoc;
         this.travelMode = travelMode;
         this.distance = dist;
+        this.floorChange = floorChange;
         this.floorsAscended = floorsAsc;
         this.floorsDescended = floorsDesc;
+    }
+};
+
+export class Route {
+    readonly endLocation: GraphLocation;
+
+    constructor(endLoc: GraphLocation) {
+        this.endLocation = endLoc;
+    }
+
+    getDirections() {
+        const res: string[] = [];
+        let currLoc: GraphLocation | null = this.endLocation;
+        while(currLoc != null && currLoc.prevLocation != null) {
+            const currSegmentStart = currLoc.prevLocation?.location;
+            const currSegmentEnd = currLoc.location;
+            let str = '';
+            if(currLoc.travelMode == 'open') {
+                str = `Continue into ${currSegmentEnd.buildingFloor.toDirectionString()}`;
+            } else if(currLoc.travelMode == 'stairs') {
+                console.assert(currLoc.floorChange != 0);
+                str = `Go ${currLoc.floorChange > 0 ? 'up' : 'down'} the stairs to ${currSegmentEnd.buildingFloor.toDirectionString()}`;
+            } else if(currLoc.travelMode == 'hallway') {
+                str = `Take the ${currLoc.travelMode} on ${currSegmentEnd.buildingFloor.toDirectionString()}`;
+            } else {
+                str = `Take the ${currLoc.travelMode} to ${currSegmentEnd.buildingFloor.toDirectionString()}`;
+            }
+            res.push(str);
+            currLoc = currLoc.prevLocation;
+        }
+
+        return res.reverse();
     }
 };
 
@@ -181,18 +229,19 @@ export class Dijkstra {
     }
 
     calculateRoute(start: Location, end: Location,
-        comparator = compareByDistance as ICompare<GraphLocation>): GraphLocation | null {
+        comparator = compareByDistance as ICompare<GraphLocation>): Route | null {
         const pq = new PriorityQueue<GraphLocation>(comparator);
         pq.push(new GraphLocation(start));
         this._setDistance(start, 0);
         while(!pq.isEmpty()) {
             const curr = pq.pop();
-            if(curr.location.equals(end)) return curr;
+            if(curr.location.equals(end)) return new Route(curr);
             this.adjList.get(curr.location).forEach(edge => {
                 if(curr.distance + edge.length < this._getDistance(edge.end)) {
                     pq.push(new GraphLocation(
-                        edge.end, curr.location, curr.travelMode,
+                        edge.end, curr, edge.type,
                         curr.distance + edge.length,
+                        edge.floorChange,
                         curr.floorsAscended,// TODO: implement floors asc/desc
                         curr.floorsDescended
                     ));
