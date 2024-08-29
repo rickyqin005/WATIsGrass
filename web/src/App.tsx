@@ -8,7 +8,7 @@ const route = new Dijkstra(new AdjacencyList(geoJson))
 	new BuildingFloor({ buildingCode: 'E6', floor: '3' })), 
 	new Location(new Coordinate([-80.545701, 43.471602]),
 	new BuildingFloor({ buildingCode: 'SLC', floor: '1' })));
-console.log(route);
+console.log(route?.getGraphLocations());
 console.log(route?.getDirections());
 
 function App() {
@@ -45,8 +45,19 @@ function App() {
 				};
 			});
 			
+			route?.getGraphLocations().forEach(loc => {
+				if(loc.prevLocation != null) {
+					const line = new google.maps.Polyline({
+						path: loc.path.map(point => { return { lat: point[1], lng: point[0] }}) as any[],
+						strokeColor: 'red',
+						strokeWeight: 6,
+						zIndex: 1
+					});
+					line.setMap(map);
+				}
+			});
 		}
-	  
+
 		initMap()
 		.then(() => console.log('loaded map'));
 		

@@ -2,7 +2,6 @@ import { PriorityQueue, ICompare } from '@datastructures-js/priority-queue';
 import { getDistance } from 'geolib';
 const precision = 0.01;
 
-
 export class Coordinate {
     readonly latitude: number;
     readonly longitude: number;
@@ -14,6 +13,10 @@ export class Coordinate {
 
     equals(other: Coordinate) {
         return this.latitude == other.latitude && this.longitude == other.longitude;
+    }
+
+    toArray(): [number, number] {
+        return [this.longitude, this.latitude];
     }
 };
 
@@ -60,54 +63,96 @@ export class Edge {
     readonly length: number;
     readonly floorChange: number;// number of floors up/down
     readonly type: string;
+    readonly coordinates: [number, number][];
 
-    constructor(start: Location, end: Location, length: number, floorChange: number, type: string) {
+    constructor(start: Location, end: Location, length: number, floorChange: number, type: string, coordinates: [number, number][]) {
         this.start = start;
         this.end = end;
         this.length = length;
         this.floorChange = floorChange;
         this.type = type;
+        this.coordinates = coordinates;
     }
 };
 
 //<-------------------- for dijkstra's algorithm ------------------------------>
 
+type GeoJsonLine = {
+    type: 'Feature',
+    properties: {
+        type: 'hallway' | 'bridge' | 'tunnel',
+        start: BuildingFloor,
+        end: BuildingFloor
+    },
+    geometry: {
+        coordinates: [number, number][],
+        type: 'LineString'
+    }
+};
+type GeoJsonStairs = {
+    type: 'Feature',
+    properties: {
+        type: 'stairs',
+        connections: BuildingFloor[]
+    },
+    geometry: {
+        coordinates: [number, number],
+        type: 'Point'
+    }
+};
+type GeoJsonDoorOrOpen = {
+    type: 'Feature',
+    properties: {
+        type: 'door' | 'open',
+        start: BuildingFloor,
+        end: BuildingFloor
+    },
+    geometry: {
+        coordinates: [number, number],
+        type: 'Point'
+    }
+};
+type GeoJson = {
+    features: (GeoJsonLine | GeoJsonStairs | GeoJsonDoorOrOpen)[],
+    type: 'FeatureCollection'
+};
+
 export class AdjacencyList {
-    private readonly _geoJson;
     private readonly _map: Map<String, Edge[]>;
 
-    constructor(geoJson) {
-        this._geoJson = geoJson;
+    constructor(geoJson: GeoJson) {
         this._map = new Map();
 
         // add lines as edges
-        geoJson.features.filter(f => f.geometry.type == 'LineString')
+        (geoJson.features.filter(f => f.geometry.type == 'LineString') as GeoJsonLine[])
         .map(f => {
             let edges: Edge[] = [];
-            // check if start and end point is at different buildingfloors
-            if(!(f.properties.start?.buildingCode == f.properties.end?.buildingCode &&
-                f.properties.start?.floor == f.properties.end?.floor)) {
-                const coords = f.geometry.coordinates.map(coord => new Coordinate(coord as [number, number]));
+            if(!(f.properties.start.buildingCode == f.properties.end.buildingCode &&
+                f.properties.start.floor == f.properties.end.floor)) {
+                // start and end point at different buildingfloors
+                const coords = f.geometry.coordinates.map(coord => new Coordinate(coord));
                 let length = 0;
                 for(let i = 0; i < coords.length-1; i++) {
                     length += getDistance(coords[i], coords[i+1], precision);
                 }
                 
                 edges.push(new Edge(
-                    new Location(coords[0], new BuildingFloor(f.properties.start as BuildingFloor)),
-                    new Location(coords[coords.length-1], new BuildingFloor(f.properties.end as BuildingFloor)),
+                    new Location(coords[0], new BuildingFloor(f.properties.start)),
+                    new Location(coords[coords.length-1], new BuildingFloor(f.properties.end)),
                     length, 0,
-                    f.properties.type
+                    f.properties.type,
+                    f.geometry.coordinates
                 ));
-            } else {
+            } else {// start and end point at same buildingfloor
                 for(let i = 0; i < f.geometry.coordinates.length-1; i++) {
-                    const start = new Coordinate(f.geometry.coordinates[i] as [number, number]);
-                    const end = new Coordinate(f.geometry.coordinates[i+1] as [number, number]);
+                    const start = new Coordinate(f.geometry.coordinates[i]);
+                    const end = new Coordinate(f.geometry.coordinates[i+1]);
                     edges.push(new Edge(
-                        new Location(start, new BuildingFloor(f.properties.start as BuildingFloor)),
-                        new Location(end, new BuildingFloor(f.properties.end as BuildingFloor)),
+                        new Location(start, new BuildingFloor(f.properties.start)),
+                        new Location(end, new BuildingFloor(f.properties.end)),
                         getDistance(start, end, precision), 0,
-                        f.properties.type
+                        f.properties.type,
+                        f.geometry.coordinates
                     ));
                 }
             }
@@ -116,22 +161,22 @@ export class AdjacencyList {
         .forEach(edge => this._addBidirectionalEdge(edge));
 
         // add 'open' and 'door' as edges
-        geoJson.features.filter(f => f.properties.type == 'open' || f.properties.type == 'door')
+        (geoJson.features.filter(f => f.properties.type == 'open' || f.properties.type == 'door') as GeoJsonDoorOrOpen[])
         .forEach(f => {
-            const coord = new Coordinate(f.geometry.coordinates as [number, number]);
+            const coord = new Coordinate(f.geometry.coordinates);
             this._addBidirectionalEdge(new Edge(
-                new Location(coord, new BuildingFloor(f.properties.start as BuildingFloor)),
-                new Location(coord, new BuildingFloor(f.properties.end as BuildingFloor)),
+                new Location(coord, new BuildingFloor(f.properties.start)),
+                new Location(coord, new BuildingFloor(f.properties.end)),
                 0, 0,
-                f.properties.type
+                f.properties.type,
+                [f.geometry.coordinates]
             ));
-        })
+        });
 
-        // add 'stairs' (add all n*(n-1)/2 combinations as edges)
-        geoJson.features
-        .filter(f => f.geometry.type == 'Point' && f.properties.type == 'stairs')
+        // add 'stairs', include all n*(n-1)/2 pairs as edges
+        (geoJson.features.filter(f => f.properties.type == 'stairs') as GeoJsonStairs[])
         .forEach(f => {
-            const coord = new Coordinate(f.geometry.coordinates as [number, number]);
+            const coord = new Coordinate(f.geometry.coordinates);
             const buildingFloors = (f.properties.connections ?? []).map(connection => new BuildingFloor(connection));
             for(let i = 0; i < buildingFloors.length; i++) {
                 for(let j = i+1; j < buildingFloors.length; j++) {
@@ -139,7 +184,8 @@ export class AdjacencyList {
                         new Location(coord, buildingFloors[i]),
                         new Location(coord, buildingFloors[j]),
                         0, j-i,
-                        f.properties.type
+                        f.properties.type,
+                        [f.geometry.coordinates]
                     ));
                 }
             }
@@ -154,7 +200,7 @@ export class AdjacencyList {
         if(this._map.get(startStr) == undefined) this._map.set(startStr, []);
         this._map.get(startStr)?.push(edge);
         if(this._map.get(endStr) == undefined) this._map.set(endStr, []);
-        this._map.get(endStr)?.push(new Edge(edge.end, edge.start, edge.length, -edge.floorChange, edge.type));
+        this._map.get(endStr)?.push(new Edge(edge.end, edge.start, edge.length, -edge.floorChange, edge.type, edge.coordinates.toReversed()));
     }
 
     get(location: Location): Edge[] {
@@ -164,6 +210,7 @@ export class AdjacencyList {
 
 export class GraphLocation {
     readonly location: Location;
+    readonly path: [number, number][];
     readonly prevLocation: GraphLocation | null;
     readonly travelMode: string | null;// type of path to get from prevLocation to location
     readonly distance: number;
@@ -171,9 +218,12 @@ export class GraphLocation {
     readonly floorsAscended: number;
     readonly floorsDescended: number;
 
-    constructor(loc: Location, prevLoc = null as GraphLocation | null, travelMode = null as string | null,
+    constructor(loc: Location, path: [number, number][],
+        prevLoc = null as GraphLocation | null,
+        travelMode = null as string | null,
         dist = 0, floorChange = 0, floorsAsc = 0, floorsDesc = 0) {
         this.location = loc;
+        this.path = path;
         this.prevLocation = prevLoc;
         this.travelMode = travelMode;
         this.distance = dist;
@@ -190,11 +240,21 @@ export class Route {
         this.endLocation = endLoc;
     }
 
+    getGraphLocations() {
+        const res: GraphLocation[] = [];
+        let curr: GraphLocation | null = this.endLocation;
+        while(curr != null) {
+            res.push(curr);
+            curr = curr.prevLocation;
+        }
+        res.reverse();
+        return res;
+    }
+
     getDirections() {
         const res: string[] = [];
         let currLoc: GraphLocation | null = this.endLocation;
         while(currLoc != null && currLoc.prevLocation != null) {
-            const currSegmentStart = currLoc.prevLocation?.location;
             const currSegmentEnd = currLoc.location;
             let str = '';
             if(currLoc.travelMode == 'open') {
@@ -207,6 +267,7 @@ export class Route {
             } else {
                 str = `Take the ${currLoc.travelMode} to ${currSegmentEnd.buildingFloor.toDirectionString()}`;
             }
+            // str += '|'+
             res.push(str);
             currLoc = currLoc.prevLocation;
         }
@@ -231,7 +292,7 @@ export class Dijkstra {
     calculateRoute(start: Location, end: Location,
         comparator = compareByDistance as ICompare<GraphLocation>): Route | null {
         const pq = new PriorityQueue<GraphLocation>(comparator);
-        pq.push(new GraphLocation(start));
+        pq.push(new GraphLocation(start, [start.coordinate.toArray()]));
         this._setDistance(start, 0);
         while(!pq.isEmpty()) {
             const curr = pq.pop();
@@ -239,7 +300,7 @@ export class Dijkstra {
             this.adjList.get(curr.location).forEach(edge => {
                 if(curr.distance + edge.length < this._getDistance(edge.end)) {
                     pq.push(new GraphLocation(
-                        edge.end, curr, edge.type,
+                        edge.end, edge.coordinates, curr, edge.type,
                         curr.distance + edge.length,
                         edge.floorChange,
                         curr.floorsAscended,// TODO: implement floors asc/desc
