@@ -24,11 +24,3 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
-#input {
-  height: 10%;
-}
-
-#map {
-  height: 90%;
-}

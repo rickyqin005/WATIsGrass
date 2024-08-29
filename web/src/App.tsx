@@ -65,8 +65,8 @@ function App() {
 
 	return (
 		<div className="App">
-			<div id="input">Hi</div>
-			<div id="map"></div>
+			<div id="input" className="h-[10%]">Hi</div>
+			<div id="map" className="h-[90%]"></div>
 		</div>
 	);
 }
