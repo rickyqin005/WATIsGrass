@@ -16,6 +16,8 @@ type OptionType = {
 };
 
 function App() {
+	console.log(floorOptions);
+
 	const UWMap = React.useMemo(() => new Dijkstra(new AdjacencyList(geoJson)), []);
 
 	const [googleMap, setGoogleMap] = useState(null);
@@ -60,7 +62,7 @@ function App() {
 						<Select
 							id="start-building"
 							name="start-building"
-							options={locationOptions} // Use the imported options
+							options={locationOptions}
 							className="react-select-container"
 							classNamePrefix="react-select"
 							value={start}
@@ -72,9 +74,9 @@ function App() {
 							Start Floor
 						</label>
 						<Select
-							id="start-building"
-							name="start-building"
-							options={floorOptions} // Use the imported options
+							id="start-floor"
+							name="start-floor"
+							options={start ? floorOptions[start.label] : []}
 							className="react-select-container"
 							classNamePrefix="react-select"
 							value={startFloor}
@@ -88,7 +90,7 @@ function App() {
 						<Select
 							id="end-building"
 							name="end-building"
-							options={locationOptions} // Use the imported options
+							options={locationOptions}
 							className="react-select-container"
 							classNamePrefix="react-select"
 							value={end}
@@ -102,7 +104,7 @@ function App() {
 						<Select
 							id="end-floor"
 							name="end-floor"
-							options={floorOptions} // Use the imported options
+							options={end ? floorOptions[end.label] : []}
 							className="react-select-container"
 							classNamePrefix="react-select"
 							value={endFloor}

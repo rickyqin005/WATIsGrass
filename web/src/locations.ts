@@ -11,8 +11,17 @@ export const locationOptions = buildings.features.map(building => {
     }
 });
 
-export const floorOptions = [
-    { value: 1, label: '1st Floor' },
-    { value: 2, label: '2nd Floor' },
-    { value: 3, label: '3rd Floor' }
-]
+export const floorOptions = buildings.features.reduce((acc: { [key: string]: any }, building) => {
+    const floors = ["1", "2", "3"]; // HARDCODED FLOOR UNTIL WE CAN GET IT FROM THE GEOJSON
+    const buildingCode = building.properties.building.buildingCode;
+
+
+    acc[buildingCode] = floors.map(floor => {
+        return {
+            value: floor,
+            label: `Floor ${floor}`
+        }
+    });
+
+    return acc;
+}, {});
