@@ -3331,8 +3331,8 @@
           "floor": "3"
         },
         "end": {
-          "buildingCode": "E3",
-          "floor": "2"
+          "buildingCode": "E2",
+          "floor": "3"
         }
       },
       "geometry": {

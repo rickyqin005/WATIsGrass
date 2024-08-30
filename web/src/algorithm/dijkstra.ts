@@ -42,7 +42,7 @@ export class AdjacencyList {
                         new Location(end, new BuildingFloor(f.properties.end)),
                         getDistance(start, end, precision), 0,
                         f.properties.type,
-                        f.geometry.coordinates
+                        f.geometry.coordinates.slice(i, i+2)
                     ));
                 }
             }
@@ -137,26 +137,22 @@ export class Route {
     }
 
     getDirections() {
-        const res: string[] = [];
-        for(let i = 1; i < this.graphLocations.length; i++) {
-            let currLoc = this.graphLocations[i];
-            const currSegmentEnd = currLoc.location;
+        return this.graphLocations.filter((loc, idx) => idx != 0)
+        .map(loc => {
+            const currSegmentEnd = loc.location;
             let str = '';
-            if(currLoc.travelMode == 'open') {
+            if(loc.travelMode == 'open') {
                 str = `Continue into ${currSegmentEnd.buildingFloor.toDirectionString()}`;
-            } else if(currLoc.travelMode == 'stairs') {
-                console.assert(currLoc.floorChange != 0);
-                str = `Go ${currLoc.floorChange > 0 ? 'up' : 'down'} the stairs to ${currSegmentEnd.buildingFloor.toDirectionString()}`;
-            } else if(currLoc.travelMode == 'hallway') {
-                str = `Take the ${currLoc.travelMode} on ${currSegmentEnd.buildingFloor.toDirectionString()}`;
+            } else if(loc.travelMode == 'stairs') {
+                console.assert(loc.floorChange != 0);
+                str = `Go ${loc.floorChange > 0 ? 'up' : 'down'} the stairs to ${currSegmentEnd.buildingFloor.toDirectionString()}`;
+            } else if(loc.travelMode == 'hallway') {
+                str = `Take the ${loc.travelMode} on ${currSegmentEnd.buildingFloor.toDirectionString()}`;
             } else {
-                str = `Take the ${currLoc.travelMode} to ${currSegmentEnd.buildingFloor.toDirectionString()}`;
+                str = `Take the ${loc.travelMode} to ${currSegmentEnd.buildingFloor.toDirectionString()}`;
             }
-            // str += '|'+
-            res.push(str);
-        }
-
-        return res;
+            return str;
+        });
     }
 };
 
