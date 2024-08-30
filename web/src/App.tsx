@@ -5,10 +5,10 @@ import Select, { SingleValue } from 'react-select';
 import './App.css';
 
 import geoJson from './geojson/paths.json';
-import { locationOptions } from './locations';
+import { locationOptions, floorOptions } from './locations';
 
 import { Dijkstra, AdjacencyList, Location, Route } from './algorithm/dijkstra';
-import loadMap from './map/loadmap';
+import loadMap from './map/loadMap';
 
 type OptionType = {
 	value: Location;
@@ -20,7 +20,9 @@ function App() {
 
 	const [googleMap, setGoogleMap] = useState(null);
 	const [start, setStart] = useState<SingleValue<OptionType>>(null);
+	const [startFloor, setStartFloor] = useState<SingleValue<OptionType>>(null);
 	const [end, setEnd] = useState<SingleValue<OptionType>>(null);
+	const [endFloor, setEndFloor] = useState<SingleValue<OptionType>>(null);
 	const [routeClear, setRouteClear] = useState<() => void>(() => () => {})
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -52,12 +54,12 @@ function App() {
 			<div id="input" className="h-[10%] mb-10">
 				<form className="flex items-center space-x-4 p-4 bg-gray-100 rounded shadow-md w-full max-w-2xl" onSubmit={e => handleSubmit(e)}>
 					<div className="flex flex-col">
-						<label htmlFor="start" className="mb-1 text-gray-700 font-semibold">
-							Start
+						<label htmlFor="start-building" className="mb-1 text-gray-700 font-semibold">
+							Start Building
 						</label>
 						<Select
-							id="start"
-							name="start"
+							id="start-building"
+							name="start-building"
 							options={locationOptions} // Use the imported options
 							className="react-select-container"
 							classNamePrefix="react-select"
@@ -66,12 +68,26 @@ function App() {
 						/>
 					</div>
 					<div className="flex flex-col">
-						<label htmlFor="end" className="mb-1 text-gray-700 font-semibold">
-							End
+						<label htmlFor="start-floor" className="mb-1 text-gray-700 font-semibold">
+							Start Floor
 						</label>
 						<Select
-							id="end"
-							name="end"
+							id="start-building"
+							name="start-building"
+							options={floorOptions} // Use the imported options
+							className="react-select-container"
+							classNamePrefix="react-select"
+							value={startFloor}
+							onChange={newVal => setStartFloor(newVal)}
+						/>
+					</div>
+					<div className="flex flex-col">
+						<label htmlFor="end-building" className="mb-1 text-gray-700 font-semibold">
+							End Building
+						</label>
+						<Select
+							id="end-building"
+							name="end-building"
 							options={locationOptions} // Use the imported options
 							className="react-select-container"
 							classNamePrefix="react-select"
@@ -79,11 +95,25 @@ function App() {
 							onChange={newVal => setEnd(newVal)}
 						/>
 					</div>
+					<div className="flex flex-col">
+						<label htmlFor="end-floor" className="mb-1 text-gray-700 font-semibold">
+							End Floor
+						</label>
+						<Select
+							id="end-floor"
+							name="end-floor"
+							options={floorOptions} // Use the imported options
+							className="react-select-container"
+							classNamePrefix="react-select"
+							value={endFloor}
+							onChange={newVal => setEndFloor(newVal)}
+						/>
+					</div>
 					<input
 						type="submit"
 						value="Let's Tunnel!"
-						className="p-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 cursor-pointer"
-						disabled={!start || !end}
+						className="p-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 cursor-pointer disabled:opacity-50"
+						disabled={!start || !startFloor || !end || !endFloor}
 					/>
 				</form>
 			</div>
