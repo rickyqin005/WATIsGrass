@@ -4,10 +4,10 @@ import Select, { SingleValue } from 'react-select';
 
 import './App.css';
 
-import geoJson from './UW_paths.json';
+import geoJson from './geojson/paths.json';
 import { locationOptions } from './locations';
 
-import { Dijkstra, AdjacencyList, Coordinate, BuildingFloor, Location } from './dijkstra';
+import { Dijkstra, AdjacencyList, Coordinate, BuildingFloor, Location } from './algorithm/dijkstra';
 
 const route = new Dijkstra(new AdjacencyList(geoJson))
 	.calculateRoute(new Location(
