@@ -124,27 +124,22 @@ export class GraphLocation {
 };
 
 export class Route {
-    readonly endLocation: GraphLocation;
+    readonly graphLocations: GraphLocation[];
 
-    constructor(endLoc: GraphLocation) {
-        this.endLocation = endLoc;
-    }
-
-    getGraphLocations() {
-        const res: GraphLocation[] = [];
-        let curr: GraphLocation | null = this.endLocation;
+    constructor(endLocation: GraphLocation) {
+        this.graphLocations = [];
+        let curr: GraphLocation | null = endLocation;
         while(curr != null) {
-            res.push(curr);
+            this.graphLocations.push(curr);
             curr = curr.prevLocation;
         }
-        res.reverse();
-        return res;
+        this.graphLocations.reverse();
     }
 
     getDirections() {
         const res: string[] = [];
-        let currLoc: GraphLocation | null = this.endLocation;
-        while(currLoc != null && currLoc.prevLocation != null) {
+        for(let i = 1; i < this.graphLocations.length; i++) {
+            let currLoc = this.graphLocations[i];
             const currSegmentEnd = currLoc.location;
             let str = '';
             if(currLoc.travelMode == 'open') {
@@ -159,10 +154,9 @@ export class Route {
             }
             // str += '|'+
             res.push(str);
-            currLoc = currLoc.prevLocation;
         }
 
-        return res.reverse();
+        return res;
     }
 };
 
@@ -181,6 +175,7 @@ export class Dijkstra {
     calculateRoute(start: Location, end: Location,
         comparator = Dijkstra.compareByDistance as ICompare<GraphLocation>): Route | null {
         const pq = new PriorityQueue<GraphLocation>(comparator);
+        this._dis.clear();
         pq.push(new GraphLocation(start, [start.coordinate.toArray()]));
         this._setDistance(start, 0);
         while(!pq.isEmpty()) {

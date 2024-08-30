@@ -7,81 +7,41 @@ import './App.css';
 import geoJson from './geojson/paths.json';
 import { locationOptions } from './locations';
 
-import { Dijkstra, AdjacencyList, Coordinate, BuildingFloor, Location } from './algorithm/dijkstra';
-
-const route = new Dijkstra(new AdjacencyList(geoJson))
-	.calculateRoute(new Location(
-		new Coordinate([-80.538799, 43.473206]),
-		new BuildingFloor({ buildingCode: 'E6', floor: '3' })),
-		new Location(new Coordinate([-80.545701, 43.471602]),
-			new BuildingFloor({ buildingCode: 'SLC', floor: '1' })));
-console.log(route?.getGraphLocations());
-console.log(route?.getDirections());
+import { Dijkstra, AdjacencyList, Location, Route } from './algorithm/dijkstra';
+import loadMap from './map/loadmap';
 
 type OptionType = {
-	value: string;
+	value: Location;
 	label: string;
 };
 
 function App() {
+	const UWMap = React.useMemo(() => new Dijkstra(new AdjacencyList(geoJson)), []);
+
+	const [googleMap, setGoogleMap] = useState(null);
 	const [start, setStart] = useState<SingleValue<OptionType>>(null);
 	const [end, setEnd] = useState<SingleValue<OptionType>>(null);
+	const [routeClear, setRouteClear] = useState<() => void>(() => () => {})
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (start && end) console.log(`Start: ${start.value}, End: ${end.value}`);
+		if (googleMap && start && end) {
+			console.log(`Start: ${start.value}, End: ${end.value}`);
+			const route = UWMap.calculateRoute(start.value, end.value);
+			console.log(route?.graphLocations);
+			console.log(route?.getDirections());
+			routeClear();
+			setRouteClear(displayRoute(googleMap, route));
+		}
 	};
 
+	// loads map
 	React.useEffect(() => {
-		(g => { var h: Promise<unknown>, a, k, p = "The Google Maps JavaScript API", c = "google", l = "importLibrary", q = "__ib__", m = document, b = window; b = b[c] || (b[c] = {}); var d = b.maps || (b.maps = {}), r = new Set, e = new URLSearchParams, u = () => h || (h = new Promise(async (f, n) => { await (a = m.createElement("script")); e.set("libraries", [...r] + ""); for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]); e.set("callback", c + ".maps." + q); a.src = `https://maps.${c}apis.com/maps/api/js?` + e; d[q] = f; a.onerror = () => h = n(Error(p + " could not load.")); a.nonce = m.querySelector("script[nonce]")?.nonce || ""; m.head.append(a) })); d[l] ? console.warn(p + " only loads once. Ignoring:", g) : d[l] = (f, ...n) => r.add(f) && u().then(() => d[l](f, ...n)) })({
-			key: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-			v: "weekly",
-			// Use the 'v' parameter to indicate the version to use (weekly, beta, alpha, etc.).
-			// Add other bootstrap parameters as needed, using camel case.
+		loadMap().then(map => {
+			console.log('loaded map');
+			setGoogleMap(map);
+			displayAllGeoJson(map);
 		});
-
-		let map: google.maps.Map;
-		async function initMap(): Promise<void> {
-			const { Map } = await google.maps.importLibrary("maps");
-			map = new Map(document.getElementById("map") as HTMLElement, {
-				center: { lat: 43.4705, lng: -80.542 },
-				zoom: 17,
-				mapId: 'map1'
-			});
-
-			const lines = {
-				...geoJson,
-				features: geoJson.features.filter(f => f.geometry.type == 'LineString')
-			};
-			map.data.addGeoJson(lines);
-			map.data.setStyle(feature => {
-				const type = feature.getProperty('type');
-				let strokeColor = 'black';
-				if (type == 'bridge') strokeColor = 'green';
-				if (type == 'hallway') strokeColor = '#668cff';
-				if (type == 'tunnel') strokeColor = '#86592d';
-				return {
-					strokeColor: strokeColor,
-					strokeWeight: 4
-				};
-			});
-
-			route?.getGraphLocations().forEach(loc => {
-				if (loc.prevLocation != null) {
-					const line = new google.maps.Polyline({
-						path: loc.path.map(point => { return { lat: point[1], lng: point[0] } }) as any[],
-						strokeColor: 'red',
-						strokeWeight: 6,
-						zIndex: 1
-					});
-					line.setMap(map);
-				}
-			});
-		}
-
-		initMap()
-			.then(() => console.log('loaded map'));
-
 	}, []);
 
 	return (
@@ -102,7 +62,7 @@ function App() {
 							className="react-select-container"
 							classNamePrefix="react-select"
 							value={start}
-							onChange={setStart}
+							onChange={newVal => setStart(newVal)}
 						/>
 					</div>
 					<div className="flex flex-col">
@@ -116,7 +76,7 @@ function App() {
 							className="react-select-container"
 							classNamePrefix="react-select"
 							value={end}
-							onChange={setEnd}
+							onChange={newVal => setEnd(newVal)}
 						/>
 					</div>
 					<input
@@ -133,3 +93,39 @@ function App() {
 }
 
 export default App;
+
+function displayAllGeoJson(map) {
+	const lines = {
+		...geoJson,
+		features: geoJson.features.filter(f => f.geometry.type == 'LineString')
+	};
+	map.data.addGeoJson(lines);
+	map.data.setStyle(feature => {
+		const type = feature.getProperty('type');
+		let strokeColor = 'black';
+		if (type == 'bridge') strokeColor = 'green';
+		if (type == 'hallway') strokeColor = '#668cff';
+		if (type == 'tunnel') strokeColor = '#86592d';
+		return {
+			strokeColor: strokeColor,
+			strokeWeight: 4
+		};
+	});
+}
+
+// returns a function to clear the route from the map
+function displayRoute(googleMap, route: Route | null) {
+	if(route != null) {
+		const lines = route.graphLocations.filter((loc, idx) => idx != 0)
+		.map(loc => new google.maps.Polyline({
+			path: loc.path.map(point => { return { lat: point[1], lng: point[0] } }) as any[],
+			strokeColor: 'red',
+			strokeWeight: 6,
+			zIndex: 1
+		}));
+		lines.forEach(line => line.setMap(googleMap));
+
+		return () => () => lines.forEach(line => line.setMap(null));
+	}
+	return () => () => {};
+}

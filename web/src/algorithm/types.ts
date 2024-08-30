@@ -106,6 +106,17 @@ export type GeoJsonDoorOrOpen = {
         type: 'Point'
     }
 };
+export type GeoJsonBuilding = {
+    type: 'Feature',
+    properties: {
+        type: 'building',
+        building: BuildingFloor
+    }
+    geometry: {
+        coordinates: [number, number],
+        type: 'Point'
+    }
+};
 export type GeoJson = {
     features: (GeoJsonLine | GeoJsonStairs | GeoJsonDoorOrOpen)[],
     type: 'FeatureCollection'

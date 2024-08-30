@@ -1434,8 +1434,8 @@
             43.472995
           ],
           [
-            -80.542426,
-            43.472708
+            -80.542465,
+            43.472764
           ],
           [
             -80.54237,
@@ -2299,6 +2299,30 @@
         "type": "Point"
       },
       "id": "ae87288ca7da09c9168ca0b92021fe57"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "stairs",
+        "connections": [
+          {
+            "buildingCode": "DC",
+            "floor": "1"
+          },
+          {
+            "buildingCode": "DC",
+            "floor": "2"
+          }
+        ]
+      },
+      "geometry": {
+        "coordinates": [
+          -80.542465,
+          43.472764
+        ],
+        "type": "Point"
+      },
+      "id": "b0d1423adff64148c7ceaccbaddc445d"
     },
     {
       "type": "Feature",

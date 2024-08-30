@@ -1,0 +1,113 @@
+{
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "DWE",
+          "floor": "1"
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.540495,
+          43.469798
+        ],
+        "type": "Point"
+      },
+      "id": "085a5642c09a7a74d050631fcc71fd9b"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "M3",
+          "floor": "1"
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.544133,
+          43.473163
+        ],
+        "type": "Point"
+      },
+      "id": "147fc5245085424aabb3f81f92215079"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "MC",
+          "floor": "3"
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.544265,
+          43.472256
+        ],
+        "type": "Point"
+      },
+      "id": "284b3e99ecb7850587b5b60d1154e522"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "STC",
+          "floor": "1"
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.543802,
+          43.470558
+        ],
+        "type": "Point"
+      },
+      "id": "42eace0bfcc372e28365f4664dfee881"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "E7",
+          "floor": "3"
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.540082,
+          43.472728
+        ],
+        "type": "Point"
+      },
+      "id": "b08548865addb0bb5af3d6a37ccfcf2a"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "SLC",
+          "floor": "1"
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.545128,
+          43.471761
+        ],
+        "type": "Point"
+      },
+      "id": "b3cf95c373ea9959b7beb40ba5bfa578"
+    }
+  ],
+  "type": "FeatureCollection"
+}

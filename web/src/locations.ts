@@ -1,5 +1,12 @@
-export const locationOptions = [
-    { value: 'location1', label: 'Location 1' },
-    { value: 'location2', label: 'Location 2' },
-    { value: 'location3', label: 'Location 3' }
-];
+import { Coordinate, BuildingFloor, Location } from './algorithm/types';
+import buildings from './geojson/buildings.json';
+
+export const locationOptions = buildings.features.map(building => {
+    return {
+        value: new Location(
+            new Coordinate(building.geometry.coordinates as [number, number]),
+            new BuildingFloor(building.properties.building)
+        ),
+        label: building.properties.building.buildingCode
+    }
+});
