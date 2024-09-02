@@ -5,7 +5,7 @@ const precision = 0.01;
 import { Coordinate, BuildingFloor, Location, Edge, GeoJsonLine, GeoJsonStairs, GeoJsonDoorOrOpen, GeoJson } from './types';
 export { Coordinate, BuildingFloor, Location, Edge };
 
-//<-------------------- for dijkstra's algorithm ------------------------------>
+//<-------------------- for Dijkstra's algorithm ------------------------------>
 
 export class AdjacencyList {
     private readonly _map: Map<String, Edge[]>;
@@ -100,12 +100,30 @@ export class AdjacencyList {
 
 export class GraphLocation {
     readonly location: Location;
+    /**
+     * the line path from prevLocation to location, as geoJSON
+     **/
     readonly path: [number, number][];
     readonly prevLocation: GraphLocation | null;
-    readonly travelMode: string | null;// type of path to get from prevLocation to location
+    /**
+     * type of path to get from prevLocation to location
+     **/
+    readonly travelMode: string | null;
+    /**
+     * total distance travelled
+     **/
     readonly distance: number;
+    /**
+     * num floors to go up/down to get from prevLocation to location
+     **/
     readonly floorChange: number;
+    /**
+     * total num floors ascended
+     **/
     readonly floorsAscended: number;
+    /**
+     * total num floors descended
+     **/
     readonly floorsDescended: number;
 
     constructor(loc: Location, path: [number, number][],
@@ -127,13 +145,27 @@ export class Route {
     readonly graphLocations: GraphLocation[];
 
     constructor(endLocation: GraphLocation) {
-        this.graphLocations = [];
+        const arr: GraphLocation[] = [];
         let curr: GraphLocation | null = endLocation;
         while(curr != null) {
-            this.graphLocations.push(curr);
+            arr.push(curr);
             curr = curr.prevLocation;
         }
-        this.graphLocations.reverse();
+        arr.reverse();
+        this.graphLocations = [];
+        for(let i = 0; i < arr.length; i++) {
+            const prevprev = this.graphLocations.at(-2);
+            const prev = this.graphLocations.at(-1);
+            const curr = arr[i];
+            if(prevprev && prev && prevprev.location.buildingFloor.equals(prev.location.buildingFloor) &&
+                prev.location.buildingFloor.equals(curr.location.buildingFloor) && prev.travelMode == curr.travelMode) {
+                const newLoc = new GraphLocation(curr.location, prev.path.concat(curr.path.slice(1)),
+                prev.prevLocation, curr.travelMode, curr.distance, curr.floorChange,
+                curr.floorsAscended, curr.floorsDescended);
+                this.graphLocations.pop();
+                this.graphLocations.push(newLoc);
+            } else this.graphLocations.push(curr);
+        }
     }
 
     getDirections() {
