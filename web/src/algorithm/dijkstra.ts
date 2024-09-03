@@ -80,8 +80,6 @@ export class AdjacencyList {
                 }
             }
         });
-
-        console.log(this._map);
     }
 
     private _addBidirectionalEdge(edge: Edge) {

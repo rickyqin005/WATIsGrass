@@ -29,6 +29,10 @@ export class BuildingFloor {
         return this.buildingCode == other.buildingCode && this.floor == other.floor;
     }
 
+    toString() {
+        return `${this.buildingCode}|${this.floor}`;
+    }
+
     toDirectionString() {
         return `${this.buildingCode} floor ${this.floor}`;
     }

@@ -5,33 +5,43 @@ import Select, { SingleValue } from 'react-select';
 import './App.css';
 
 import geoJson from './geojson/paths.json';
-import { locationOptions, floorOptions } from './locations';
+import { getStartEndLocations, getBuildingFloorOptions, getBuildingOptions, getFloorOptions } from './locations';
 
-import { Dijkstra, AdjacencyList, Location, Route } from './algorithm/dijkstra';
+
+import { Dijkstra, AdjacencyList, Location, Route, Coordinate, BuildingFloor } from './algorithm/dijkstra';
 import loadMap from './map/loadMap';
 
 type OptionType = {
-	value: Location;
+	value: string;
 	label: string;
 };
 
 function App() {
-	console.log(floorOptions);
 
 	const UWMap = React.useMemo(() => new Dijkstra(new AdjacencyList(geoJson)), []);
-
 	const [googleMap, setGoogleMap] = useState(null);
-	const [start, setStart] = useState<SingleValue<OptionType>>(null);
+
+	const startEndLocations = React.useMemo(getStartEndLocations, []);
+	const buildingFloorOptions = React.useMemo(getBuildingFloorOptions, []);
+
+	const [startBuilding, setStartBuilding] = useState<SingleValue<OptionType>>(null);
 	const [startFloor, setStartFloor] = useState<SingleValue<OptionType>>(null);
-	const [end, setEnd] = useState<SingleValue<OptionType>>(null);
+	const [endBuilding, setEndBuilding] = useState<SingleValue<OptionType>>(null);
 	const [endFloor, setEndFloor] = useState<SingleValue<OptionType>>(null);
+	const buildingOptions = React.useMemo(getBuildingOptions(buildingFloorOptions), []);
+	const startFloorOptions = React.useMemo(getFloorOptions(buildingFloorOptions, startBuilding), [startBuilding]);
+	const endFloorOptions = React.useMemo(getFloorOptions(buildingFloorOptions, endBuilding), [endBuilding]);
+
 	const [routeClear, setRouteClear] = useState<() => void>(() => () => {})
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (googleMap && start && end) {
-			console.log(`Start: ${start.value}, End: ${end.value}`);
-			const route = UWMap.calculateRoute(start.value, end.value);
+		if (googleMap && startBuilding && startFloor && endBuilding && endFloor) {
+			const startBuildingFloor = new BuildingFloor({ buildingCode: startBuilding.value, floor: startFloor.value });
+			const endBuildingFloor = new BuildingFloor({ buildingCode: endBuilding.value, floor: endFloor.value });
+			console.log(`Start: ${startBuildingFloor.toString()}, End: ${endBuildingFloor.toString()}`);
+			const route = UWMap.calculateRoute(startEndLocations.get(startBuildingFloor.toString()) as Location, 
+				startEndLocations.get(endBuildingFloor.toString()) as Location);
 			console.log(route?.graphLocations);
 			console.log(route?.getDirections());
 			routeClear();
@@ -62,11 +72,11 @@ function App() {
 						<Select
 							id="start-building"
 							name="start-building"
-							options={locationOptions}
+							options={buildingOptions}
 							className="react-select-container"
 							classNamePrefix="react-select"
-							value={start}
-							onChange={newVal => setStart(newVal)}
+							value={startBuilding}
+							onChange={newVal => setStartBuilding(newVal)}
 						/>
 					</div>
 					<div className="flex flex-col">
@@ -76,7 +86,7 @@ function App() {
 						<Select
 							id="start-floor"
 							name="start-floor"
-							options={start ? floorOptions[start.label] : []}
+							options={startFloorOptions}
 							className="react-select-container"
 							classNamePrefix="react-select"
 							value={startFloor}
@@ -90,11 +100,11 @@ function App() {
 						<Select
 							id="end-building"
 							name="end-building"
-							options={locationOptions}
+							options={buildingOptions}
 							className="react-select-container"
 							classNamePrefix="react-select"
-							value={end}
-							onChange={newVal => setEnd(newVal)}
+							value={endBuilding}
+							onChange={newVal => setEndBuilding(newVal)}
 						/>
 					</div>
 					<div className="flex flex-col">
@@ -104,7 +114,7 @@ function App() {
 						<Select
 							id="end-floor"
 							name="end-floor"
-							options={end ? floorOptions[end.label] : []}
+							options={endFloorOptions}
 							className="react-select-container"
 							classNamePrefix="react-select"
 							value={endFloor}
@@ -115,7 +125,7 @@ function App() {
 						type="submit"
 						value="Let's Tunnel!"
 						className="p-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 cursor-pointer disabled:opacity-50"
-						disabled={!start || !startFloor || !end || !endFloor}
+						disabled={!startBuilding || !startFloor || !endBuilding || !endFloor}
 					/>
 				</form>
 			</div>
