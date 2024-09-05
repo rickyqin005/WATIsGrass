@@ -173,6 +173,49 @@
       "properties": {
         "type": "building",
         "building": {
+          "buildingCode": "C2",
+          "floors": [
+            "B",
+            "1",
+            "2",
+            "3"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.543119,
+          43.472165
+        ],
+        "type": "Point"
+      },
+      "id": "76363b21f093b58085a30dd88084b512"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "ESC",
+          "floors": [
+            "2"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.542574,
+          43.471109
+        ],
+        "type": "Point"
+      },
+      "id": "aa3a97a1a35f60ebdf91172afe17a897"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
           "buildingCode": "CPH",
           "floors": [
             "3"

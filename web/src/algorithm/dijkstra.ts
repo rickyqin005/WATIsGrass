@@ -173,6 +173,8 @@ export class Route {
             let str = '';
             if(loc.travelMode == 'open') {
                 str = `Continue into ${currSegmentEnd.buildingFloor.toDirectionString()}`;
+            } else if(loc.travelMode == 'door') {
+                str = `Go through the door to ${currSegmentEnd.buildingFloor.toDirectionString()}`;
             } else if(loc.travelMode == 'stairs') {
                 console.assert(loc.floorChange != 0);
                 str = `Go ${loc.floorChange > 0 ? 'up' : 'down'} the stairs to ${currSegmentEnd.buildingFloor.toDirectionString()}`;
