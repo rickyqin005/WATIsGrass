@@ -114,7 +114,10 @@ export type GeoJsonBuilding = {
     type: 'Feature',
     properties: {
         type: 'building',
-        building: BuildingFloor
+        building: {
+            buildingCode: string,
+            floors: string[]
+        }
     }
     geometry: {
         coordinates: [number, number],
