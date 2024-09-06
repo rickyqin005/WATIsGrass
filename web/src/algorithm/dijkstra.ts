@@ -112,15 +112,15 @@ export class GraphLocation {
      **/
     readonly distance: number;
     /**
-     * num floors to go up/down to get from prevLocation to location
+     * num floors to go up/down to get from prevLocation to location (a signed integer)
      **/
     readonly floorChange: number;
     /**
-     * total num floors ascended
+     * total number of floors ascended
      **/
     readonly floorsAscended: number;
     /**
-     * total num floors descended
+     * total number of floors descended (a nonnegative integer)
      **/
     readonly floorsDescended: number;
 
@@ -215,8 +215,8 @@ export class Dijkstra {
                         edge.end, edge.coordinates, curr, edge.type,
                         curr.distance + edge.length,
                         edge.floorChange,
-                        curr.floorsAscended,// TODO: implement floors asc/desc
-                        curr.floorsDescended
+                        curr.floorsAscended+Math.max(edge.floorChange, 0),
+                        curr.floorsDescended-Math.min(edge.floorChange, 0)
                     ));
                     this._setDistance(edge.end, curr.distance + edge.length);
                 }
