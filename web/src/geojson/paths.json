@@ -28,6 +28,10 @@
             43.468794
           ],
           [
+            -80.542721,
+            43.469006
+          ],
+          [
             -80.542805,
             43.469132
           ],
@@ -289,6 +293,37 @@
     {
       "type": "Feature",
       "properties": {
+        "type": "stairs",
+        "connections": [
+          {
+            "buildingCode": "ML",
+            "floor": "1",
+            "level": 0
+          },
+          {
+            "buildingCode": "ML",
+            "floor": "2",
+            "level": 1
+          },
+          {
+            "buildingCode": "ML",
+            "floor": "3",
+            "level": 2
+          }
+        ]
+      },
+      "geometry": {
+        "coordinates": [
+          -80.542721,
+          43.469006
+        ],
+        "type": "Point"
+      },
+      "id": "23188a7f8e79853766095220d6c13f3a"
+    },
+    {
+      "type": "Feature",
+      "properties": {
         "type": "hallway",
         "start": {
           "buildingCode": "PHY",
@@ -468,6 +503,10 @@
           [
             -80.539816,
             43.472831
+          ],
+          [
+            -80.539582,
+            43.472921
           ],
           [
             -80.539349,
@@ -891,6 +930,37 @@
     {
       "type": "Feature",
       "properties": {
+        "type": "stairs",
+        "connections": [
+          {
+            "buildingCode": "NH",
+            "floor": "1",
+            "level": 0
+          },
+          {
+            "buildingCode": "NH",
+            "floor": "2",
+            "level": 1
+          },
+          {
+            "buildingCode": "NH",
+            "floor": "3",
+            "level": 2
+          }
+        ]
+      },
+      "geometry": {
+        "coordinates": [
+          -80.543756,
+          43.469923
+        ],
+        "type": "Point"
+      },
+      "id": "44a2bde9922340998d44afbd182246b0"
+    },
+    {
+      "type": "Feature",
+      "properties": {
         "type": "hallway",
         "start": {
           "buildingCode": "MC",
@@ -1303,17 +1373,19 @@
     {
       "type": "Feature",
       "properties": {
-        "type": "door",
-        "start": {
-          "buildingCode": "EIT",
-          "floor": "3",
-          "level": 2
-        },
-        "end": {
-          "buildingCode": "PHY",
-          "floor": "3",
-          "level": 2.5
-        }
+        "type": "stairs",
+        "connections": [
+          {
+            "buildingCode": "EIT",
+            "floor": "3",
+            "level": 2
+          },
+          {
+            "buildingCode": "PHY",
+            "floor": "3",
+            "level": 2.5
+          }
+        ]
       },
       "geometry": {
         "coordinates": [
@@ -1385,28 +1457,6 @@
         "type": "LineString"
       },
       "id": "5fd8477633d6152e4a0a72a6018f424a"
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "door",
-        "start": {
-          "buildingCode": "B2",
-          "floor": "2"
-        },
-        "end": {
-          "buildingCode": "STC",
-          "floor": "2"
-        }
-      },
-      "geometry": {
-        "coordinates": [
-          -80.543323,
-          43.470781
-        ],
-        "type": "Point"
-      },
-      "id": "61bb37d37ccc9f631692b7232cfc6e7c"
     },
     {
       "type": "Feature",
@@ -1587,6 +1637,37 @@
     {
       "type": "Feature",
       "properties": {
+        "type": "stairs",
+        "connections": [
+          {
+            "buildingCode": "E5",
+            "floor": "1",
+            "level": 0
+          },
+          {
+            "buildingCode": "E5",
+            "floor": "2",
+            "level": 1
+          },
+          {
+            "buildingCode": "E5",
+            "floor": "3",
+            "level": 2
+          }
+        ]
+      },
+      "geometry": {
+        "coordinates": [
+          -80.539582,
+          43.472921
+        ],
+        "type": "Point"
+      },
+      "id": "6ad647ba74651568e0c5d7399473d87a"
+    },
+    {
+      "type": "Feature",
+      "properties": {
         "type": "hallway",
         "start": {
           "buildingCode": "DC",
@@ -1738,6 +1819,38 @@
     {
       "type": "Feature",
       "properties": {
+        "type": "hallway",
+        "start": {
+          "buildingCode": "NH",
+          "floor": "1"
+        },
+        "end": {
+          "buildingCode": "NH",
+          "floor": "1"
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            -80.543756,
+            43.469923
+          ],
+          [
+            -80.543531,
+            43.469582
+          ],
+          [
+            -80.543207,
+            43.469694
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": "76f0a3ec4c02a5309c4c5e6aec25f2d6"
+    },
+    {
+      "type": "Feature",
+      "properties": {
         "type": "stairs",
         "connections": [
           {
@@ -1760,34 +1873,6 @@
         "type": "Point"
       },
       "id": "7818e6356722221306a607e9fbd2e46e"
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "hallway",
-        "start": {
-          "buildingCode": "STC",
-          "floor": "2"
-        },
-        "end": {
-          "buildingCode": "STC",
-          "floor": "2"
-        }
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            -80.543323,
-            43.470781
-          ],
-          [
-            -80.5433,
-            43.470747
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": "79014817240d768b8dda8f4f6c7277bd"
     },
     {
       "type": "Feature",
@@ -1841,8 +1926,8 @@
             43.47084
           ],
           [
-            -80.543323,
-            43.470781
+            -80.5433,
+            43.470747
           ]
         ],
         "type": "LineString"
@@ -2001,16 +2086,8 @@
             43.470007
           ],
           [
-            -80.543723,
-            43.469876
-          ],
-          [
-            -80.543531,
-            43.469582
-          ],
-          [
-            -80.543207,
-            43.469694
+            -80.543756,
+            43.469923
           ]
         ],
         "type": "LineString"
@@ -2328,7 +2405,7 @@
         "type": "stairs",
         "connections": [
           {
-            "buildingCode": "STC",
+            "buildingCode": "B2",
             "floor": "1",
             "level": 0
           },
@@ -2336,16 +2413,52 @@
             "buildingCode": "B2",
             "floor": "2",
             "level": 1
+          }
+        ]
+      },
+      "geometry": {
+        "coordinates": [
+          -80.543362,
+          43.47084
+        ],
+        "type": "Point"
+      },
+      "id": "a5d95a67b0f1ee83f7967774ba1d239f"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "stairs",
+        "connections": [
+          {
+            "buildingCode": "STC",
+            "floor": "B1",
+            "level": 0
+          },
+          {
+            "buildingCode": "STC",
+            "floor": "B2",
+            "level": 1
+          },
+          {
+            "buildingCode": "STC",
+            "floor": "1",
+            "level": 2
+          },
+          {
+            "buildingCode": "B2",
+            "floor": "2",
+            "level": 3
           },
           {
             "buildingCode": "STC",
             "floor": "2",
-            "level": 2.5
+            "level": 3.5
           },
           {
             "buildingCode": "STC",
             "floor": "3",
-            "level": 3.5
+            "level": 4.5
           }
         ]
       },
@@ -2357,6 +2470,38 @@
         "type": "Point"
       },
       "id": "a892cb3aa61fb3087b28084c2fae71d2"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "hallway",
+        "start": {
+          "buildingCode": "HH",
+          "floor": "1"
+        },
+        "end": {
+          "buildingCode": "HH",
+          "floor": "1"
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            -80.541879,
+            43.468213
+          ],
+          [
+            -80.541809,
+            43.468103
+          ],
+          [
+            -80.541732,
+            43.467984
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": "aa7e2298e745debc61448fe2c955b2f7"
     },
     {
       "type": "Feature",
@@ -2641,6 +2786,10 @@
           [
             -80.54325,
             43.470881
+          ],
+          [
+            -80.543118,
+            43.470928
           ],
           [
             -80.542986,
