@@ -75,15 +75,18 @@
         "connections": [
           {
             "buildingCode": "E6",
-            "floor": "1"
+            "floor": "1",
+            "level": 0
           },
           {
             "buildingCode": "E6",
-            "floor": "2"
+            "floor": "2",
+            "level": 1
           },
           {
             "buildingCode": "E6",
-            "floor": "3"
+            "floor": "3",
+            "level": 2
           }
         ]
       },
@@ -103,15 +106,18 @@
         "connections": [
           {
             "buildingCode": "E2",
-            "floor": "1"
+            "floor": "1",
+            "level": 0
           },
           {
             "buildingCode": "E2",
-            "floor": "2"
+            "floor": "2",
+            "level": 1
           },
           {
             "buildingCode": "E2",
-            "floor": "3"
+            "floor": "3",
+            "level": 2
           }
         ]
       },
@@ -162,7 +168,7 @@
         "type": "bridge",
         "start": {
           "buildingCode": "E3",
-          "floor": "3"
+          "floor": "4"
         },
         "end": {
           "buildingCode": "E7",
@@ -556,11 +562,11 @@
         "type": "hallway",
         "start": {
           "buildingCode": "E3",
-          "floor": "1"
+          "floor": "2"
         },
         "end": {
           "buildingCode": "E3",
-          "floor": "1"
+          "floor": "2"
         }
       },
       "geometry": {
@@ -593,15 +599,23 @@
         "connections": [
           {
             "buildingCode": "E7",
-            "floor": "1"
+            "floor": "1",
+            "level": 0
           },
           {
             "buildingCode": "E7",
-            "floor": "2"
+            "floor": "2",
+            "level": 1
           },
           {
             "buildingCode": "E7",
-            "floor": "3"
+            "floor": "3",
+            "level": 2
+          },
+          {
+            "buildingCode": "E7",
+            "floor": "4",
+            "level": 3
           }
         ]
       },
@@ -772,11 +786,11 @@
         "type": "hallway",
         "start": {
           "buildingCode": "E3",
-          "floor": "2"
+          "floor": "3"
         },
         "end": {
           "buildingCode": "E3",
-          "floor": "2"
+          "floor": "3"
         }
       },
       "geometry": {
@@ -1155,27 +1169,33 @@
         "connections": [
           {
             "buildingCode": "MC",
-            "floor": "1"
+            "floor": "1",
+            "level": 0
           },
           {
             "buildingCode": "MC",
-            "floor": "2"
+            "floor": "2",
+            "level": 1
           },
           {
             "buildingCode": "MC",
-            "floor": "3"
+            "floor": "3",
+            "level": 2
           },
           {
             "buildingCode": "MC",
-            "floor": "4"
+            "floor": "4",
+            "level": 3
           },
           {
             "buildingCode": "MC",
-            "floor": "5"
+            "floor": "5",
+            "level": 4
           },
           {
             "buildingCode": "MC",
-            "floor": "6"
+            "floor": "6",
+            "level": 5
           }
         ]
       },
@@ -1286,11 +1306,13 @@
         "type": "door",
         "start": {
           "buildingCode": "EIT",
-          "floor": "3"
+          "floor": "3",
+          "level": 2
         },
         "end": {
           "buildingCode": "PHY",
-          "floor": "3"
+          "floor": "3",
+          "level": 2.5
         }
       },
       "geometry": {
@@ -1497,19 +1519,23 @@
         "connections": [
           {
             "buildingCode": "C2",
-            "floor": "B"
+            "floor": "B",
+            "level": 0
           },
           {
             "buildingCode": "C2",
-            "floor": "1"
+            "floor": "1",
+            "level": 1
           },
           {
             "buildingCode": "C2",
-            "floor": "2"
+            "floor": "2",
+            "level": 2
           },
           {
             "buildingCode": "C2",
-            "floor": "3"
+            "floor": "3",
+            "level": 3
           }
         ]
       },
@@ -1613,15 +1639,18 @@
         "connections": [
           {
             "buildingCode": "RCH",
-            "floor": "1"
+            "floor": "1",
+            "level": 0
           },
           {
             "buildingCode": "RCH",
-            "floor": "2"
+            "floor": "2",
+            "level": 1
           },
           {
             "buildingCode": "RCH",
-            "floor": "3"
+            "floor": "3",
+            "level": 2
           }
         ]
       },
@@ -1677,15 +1706,23 @@
         "connections": [
           {
             "buildingCode": "DWE",
-            "floor": "1"
+            "floor": "B",
+            "level": 0
           },
           {
             "buildingCode": "DWE",
-            "floor": "2"
+            "floor": "1",
+            "level": 1
           },
           {
             "buildingCode": "DWE",
-            "floor": "3"
+            "floor": "2",
+            "level": 2
+          },
+          {
+            "buildingCode": "DWE",
+            "floor": "3",
+            "level": 3
           }
         ]
       },
@@ -1705,11 +1742,13 @@
         "connections": [
           {
             "buildingCode": "QNC",
-            "floor": "1"
+            "floor": "1",
+            "level": 0
           },
           {
             "buildingCode": "QNC",
-            "floor": "2"
+            "floor": "2",
+            "level": 1
           }
         ]
       },
@@ -2021,23 +2060,28 @@
         "connections": [
           {
             "buildingCode": "E2",
-            "floor": "B"
+            "floor": "B",
+            "level": 0
           },
           {
             "buildingCode": "E2",
-            "floor": "1"
+            "floor": "1",
+            "level": 0.5
           },
           {
             "buildingCode": "E2",
-            "floor": "2"
+            "floor": "2",
+            "level": 1.5
           },
           {
             "buildingCode": "E2",
-            "floor": "3"
+            "floor": "3",
+            "level": 2.5
           },
           {
             "buildingCode": "PHY",
-            "floor": "3"
+            "floor": "3",
+            "level": 3
           }
         ]
       },
@@ -2085,11 +2129,13 @@
         "connections": [
           {
             "buildingCode": "SLC",
-            "floor": "1"
+            "floor": "1",
+            "level": 0
           },
           {
             "buildingCode": "SLC",
-            "floor": "2"
+            "floor": "2",
+            "level": 1
           }
         ]
       },
@@ -2229,11 +2275,13 @@
         "connections": [
           {
             "buildingCode": "DC",
-            "floor": "1"
+            "floor": "1",
+            "level": 0
           },
           {
             "buildingCode": "DC",
-            "floor": "2"
+            "floor": "2",
+            "level": 1
           }
         ]
       },
@@ -2281,19 +2329,23 @@
         "connections": [
           {
             "buildingCode": "STC",
-            "floor": "1"
+            "floor": "1",
+            "level": 0
           },
           {
             "buildingCode": "B2",
-            "floor": "2"
+            "floor": "2",
+            "level": 1
           },
           {
             "buildingCode": "STC",
-            "floor": "2"
+            "floor": "2",
+            "level": 2.5
           },
           {
             "buildingCode": "STC",
-            "floor": "3"
+            "floor": "3",
+            "level": 3.5
           }
         ]
       },
@@ -2401,19 +2453,23 @@
         "connections": [
           {
             "buildingCode": "M3",
-            "floor": "1"
+            "floor": "1",
+            "level": 0
           },
           {
             "buildingCode": "M3",
-            "floor": "2"
+            "floor": "2",
+            "level": 1
           },
           {
             "buildingCode": "M3",
-            "floor": "3"
+            "floor": "3",
+            "level": 2
           },
           {
             "buildingCode": "M3",
-            "floor": "4"
+            "floor": "4",
+            "level": 3
           }
         ]
       },
@@ -2432,7 +2488,7 @@
         "type": "open",
         "start": {
           "buildingCode": "E3",
-          "floor": "1"
+          "floor": "2"
         },
         "end": {
           "buildingCode": "E2",
@@ -2455,15 +2511,18 @@
         "connections": [
           {
             "buildingCode": "DC",
-            "floor": "1"
+            "floor": "1",
+            "level": 0
           },
           {
             "buildingCode": "DC",
-            "floor": "2"
+            "floor": "2",
+            "level": 1
           },
           {
             "buildingCode": "DC",
-            "floor": "3"
+            "floor": "3",
+            "level": 2
           }
         ]
       },
@@ -2514,11 +2573,11 @@
         "type": "hallway",
         "start": {
           "buildingCode": "E3",
-          "floor": "1"
+          "floor": "2"
         },
         "end": {
           "buildingCode": "E3",
-          "floor": "1"
+          "floor": "2"
         }
       },
       "geometry": {
@@ -2673,15 +2732,18 @@
         "connections": [
           {
             "buildingCode": "MC",
-            "floor": "1"
+            "floor": "1",
+            "level": 0
           },
           {
             "buildingCode": "MC",
-            "floor": "2"
+            "floor": "2",
+            "level": 1
           },
           {
             "buildingCode": "MC",
-            "floor": "3"
+            "floor": "3",
+            "level": 2
           }
         ]
       },
@@ -2729,11 +2791,13 @@
         "connections": [
           {
             "buildingCode": "ESC",
-            "floor": "2"
+            "floor": "2",
+            "level": 1
           },
           {
             "buildingCode": "EIT",
-            "floor": "3"
+            "floor": "3",
+            "level": 2
           }
         ]
       },
@@ -2781,11 +2845,13 @@
         "connections": [
           {
             "buildingCode": "MC",
-            "floor": "B"
+            "floor": "B",
+            "level": 0
           },
           {
             "buildingCode": "MC",
-            "floor": "1"
+            "floor": "1",
+            "level": 1
           }
         ]
       },
@@ -2805,19 +2871,23 @@
         "connections": [
           {
             "buildingCode": "DC",
-            "floor": "1"
+            "floor": "1",
+            "level": 0
           },
           {
             "buildingCode": "E3",
-            "floor": "1"
+            "floor": "2",
+            "level": 0.5
           },
           {
             "buildingCode": "DC",
-            "floor": "2"
+            "floor": "2",
+            "level": 1
           },
           {
             "buildingCode": "E3",
-            "floor": "2"
+            "floor": "3",
+            "level": 1.5
           }
         ]
       },
@@ -3033,11 +3103,13 @@
         "connections": [
           {
             "buildingCode": "E3",
-            "floor": "2"
+            "floor": "3",
+            "level": 2
           },
           {
             "buildingCode": "E3",
-            "floor": "3"
+            "floor": "4",
+            "level": 3
           }
         ]
       },
@@ -3431,11 +3503,13 @@
         "connections": [
           {
             "buildingCode": "E2",
-            "floor": "2"
+            "floor": "2",
+            "level": 1
           },
           {
             "buildingCode": "CPH",
-            "floor": "3"
+            "floor": "3",
+            "level": 2
           }
         ]
       },
@@ -3458,7 +3532,7 @@
         },
         "end": {
           "buildingCode": "DWE",
-          "floor": "1"
+          "floor": "B"
         }
       },
       "geometry": {

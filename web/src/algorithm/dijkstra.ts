@@ -73,7 +73,7 @@ export class AdjacencyList {
                     this._addBidirectionalEdge(new Edge(
                         new Location(coord, buildingFloors[i]),
                         new Location(coord, buildingFloors[j]),
-                        0, j-i,
+                        0, f.properties.connections[j].level - f.properties.connections[i].level,
                         f.properties.type,
                         [f.geometry.coordinates]
                     ));
@@ -177,7 +177,7 @@ export class Route {
                 str = `Go through the door to ${currSegmentEnd.buildingFloor.toDirectionString()}`;
             } else if(loc.travelMode == 'stairs') {
                 console.assert(loc.floorChange != 0);
-                str = `Go ${loc.floorChange > 0 ? 'up' : 'down'} the stairs to ${currSegmentEnd.buildingFloor.toDirectionString()}`;
+                str = `Go ${loc.floorChange > 0 ? 'up' : 'down'} ${Math.abs(loc.floorChange)} floor${Math.abs(loc.floorChange) == 1 ? '' : 's'} to ${currSegmentEnd.buildingFloor.toDirectionString()}`;
             } else if(loc.travelMode == 'hallway') {
                 str = `Take the ${loc.travelMode} on ${currSegmentEnd.buildingFloor.toDirectionString()}`;
             } else {

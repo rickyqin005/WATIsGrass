@@ -91,7 +91,11 @@ export type GeoJsonStairs = {
     type: 'Feature',
     properties: {
         type: 'stairs',
-        connections: BuildingFloor[]
+        connections: {
+            buildingCode: string,
+            floor: string,
+            level: number
+        }[]
     },
     geometry: {
         coordinates: [number, number],
