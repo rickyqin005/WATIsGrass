@@ -78,7 +78,7 @@ export class Edge {
 export type GeoJsonLine = {
     type: 'Feature',
     properties: {
-        type: 'hallway' | 'bridge' | 'tunnel',
+        type: 'hallway' | 'bridge' | 'tunnel' | 'walkway',
         start: BuildingFloor,
         end: BuildingFloor
     },

@@ -5,6 +5,28 @@
       "properties": {
         "type": "building",
         "building": {
+          "buildingCode": "EV1",
+          "floors": [
+            "1",
+            "2",
+            "3"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.542458,
+          43.468309
+        ],
+        "type": "Point"
+      },
+      "id": "0072dd16edd1422ecb48699b15abf840"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
           "buildingCode": "RCH",
           "floors": [
             "2"
@@ -49,7 +71,8 @@
         "building": {
           "buildingCode": "DWE",
           "floors": [
-            "1"
+            "1",
+            "2"
           ]
         }
       },
@@ -71,7 +94,8 @@
           "floors": [
             "1",
             "2",
-            "3"
+            "3",
+            "4"
           ]
         }
       },
@@ -113,7 +137,8 @@
           "floors": [
             "1",
             "2",
-            "3"
+            "3",
+            "4"
           ]
         }
       },
@@ -156,18 +181,40 @@
           "floors": [
             "1",
             "2",
-            "3"
+            "3",
+            "4",
+            "5",
+            "6"
           ]
         }
       },
       "geometry": {
         "coordinates": [
-          -80.544265,
-          43.472256
+          -80.543764,
+          43.472436
         ],
         "type": "Point"
       },
       "id": "284b3e99ecb7850587b5b60d1154e522"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "building": {
+          "buildingCode": "SLC",
+          "floors": [
+            "2"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.545425,
+          43.471829
+        ],
+        "type": "Point"
+      },
+      "id": "2a6b9260e4334119b6efbc6d659cdfba"
     },
     {
       "type": "Feature",
@@ -194,6 +241,26 @@
       "properties": {
         "type": "building",
         "building": {
+          "buildingCode": "DWE",
+          "floors": [
+            "3"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.539691,
+          43.470091
+        ],
+        "type": "Point"
+      },
+      "id": "3b3b79c797a158ce6d4ccecc6beec959"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
           "buildingCode": "STC",
           "floors": [
             "1"
@@ -208,6 +275,72 @@
         "type": "Point"
       },
       "id": "42eace0bfcc372e28365f4664dfee881"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "TC",
+          "floors": [
+            "B",
+            "1",
+            "2",
+            "3"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.541216,
+          43.468928
+        ],
+        "type": "Point"
+      },
+      "id": "49004072376d926315f50f90ba2ee915"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "EV3",
+          "floors": [
+            "2",
+            "3",
+            "4"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.543373,
+          43.468175
+        ],
+        "type": "Point"
+      },
+      "id": "5c40b549fe5047a0880842c4798accaa"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "PAS",
+          "floors": [
+            "1",
+            "2"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.54229,
+          43.466953
+        ],
+        "type": "Point"
+      },
+      "id": "5cde51429119167d2f321db3d181b230"
     },
     {
       "type": "Feature",
@@ -244,8 +377,8 @@
       },
       "geometry": {
         "coordinates": [
-          -80.542721,
-          43.469006
+          -80.542809,
+          43.468947
         ],
         "type": "Point"
       },
@@ -300,11 +433,54 @@
       "properties": {
         "type": "building",
         "building": {
+          "buildingCode": "EV2",
+          "floors": [
+            "1"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.543282,
+          43.467836
+        ],
+        "type": "Point"
+      },
+      "id": "88340fe5a87c4bcdf79e38e9e2113647"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "EV2",
+          "floors": [
+            "2"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.542959,
+          43.467997
+        ],
+        "type": "Point"
+      },
+      "id": "8c84d648df9c038a115edbfe1c0057eb"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
           "buildingCode": "E5",
           "floors": [
             "1",
             "2",
-            "3"
+            "3",
+            "4",
+            "5",
+            "6"
           ]
         }
       },
@@ -366,7 +542,10 @@
           "floors": [
             "1",
             "2",
-            "3"
+            "3",
+            "4",
+            "5",
+            "6"
           ]
         }
       },
@@ -386,8 +565,7 @@
         "building": {
           "buildingCode": "SLC",
           "floors": [
-            "1",
-            "2"
+            "1"
           ]
         }
       },
@@ -415,8 +593,8 @@
       },
       "geometry": {
         "coordinates": [
-          -80.543756,
-          43.469923
+          -80.543541,
+          43.469677
         ],
         "type": "Point"
       },
@@ -452,7 +630,9 @@
             "B1",
             "B2",
             "2",
-            "3"
+            "3",
+            "4",
+            "5"
           ]
         }
       },
@@ -491,6 +671,26 @@
       "properties": {
         "type": "building",
         "building": {
+          "buildingCode": "E3",
+          "floors": [
+            "4"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.540479,
+          43.471916
+        ],
+        "type": "Point"
+      },
+      "id": "e3cf7e819a14d876d7ca9546120b4eea"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
           "buildingCode": "B1",
           "floors": [
             "2"
@@ -505,6 +705,27 @@
         "type": "Point"
       },
       "id": "e72cb4f3a50e750d12af71eb2c79d28d"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "PAS",
+          "floors": [
+            "3",
+            "4"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.542041,
+          43.467473
+        ],
+        "type": "Point"
+      },
+      "id": "e73a579b5815183de586a00d56ccfe29"
     },
     {
       "type": "Feature",
@@ -531,9 +752,31 @@
       "properties": {
         "type": "building",
         "building": {
+          "buildingCode": "SCH",
+          "floors": [
+            "2"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.540366,
+          43.469252
+        ],
+        "type": "Point"
+      },
+      "id": "f17a5f413f979e05885edf4dae1cc1be"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
           "buildingCode": "AL",
           "floors": [
-            "1"
+            "B",
+            "1",
+            "2"
           ]
         }
       },
