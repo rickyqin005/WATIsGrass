@@ -130,10 +130,10 @@ function App() {
 				</form>
 			</div>
 			<div id="map" className="h-[70%] w-[80%]"></div>
-			<div>Made by Ricky Qin and Manasva Katyal, check out our{' '}
+			<div>Made by Ricky Qin and Manasva Katyal, check out the Github repo{' '}
 				<a
 					className="underline text-blue-600 hover:text-blue-800 visited:text-purple-600"
-					href="https://github.com/rickyqin005/WATIsGrass">Github repo</a>!
+					href="https://github.com/rickyqin005/WATIsGrass">here</a>!
 			</div>
 		</div>
 	);
