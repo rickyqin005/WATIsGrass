@@ -22,8 +22,8 @@ This geoJSON file contains only `LineString` and `Point` features. It represents
 
 - `type` (required): One of `hallway`, `bridge`, `tunnel` or `walkway`.\
 `hallway` must have the same start `start` and `end` location, while `walkway` must have `start` and `end` equal to `{ buildingCode: "OUT", floor: "0" }`
-- `start` (required): The starting location, in the format `{ buildingCode: string, floor: string }`
-- `end` (required): The ending location, in the format `{ buildingCode: string, floor: string }`
+- `start` (required): The starting location, a `BuildingFloor`
+- `end` (required): The ending location, a `BuildingFloor`
 
 ### Stairs
 

@@ -69,27 +69,6 @@
       "properties": {
         "type": "building",
         "building": {
-          "buildingCode": "DWE",
-          "floors": [
-            "1",
-            "2"
-          ]
-        }
-      },
-      "geometry": {
-        "coordinates": [
-          -80.540495,
-          43.469798
-        ],
-        "type": "Point"
-      },
-      "id": "085a5642c09a7a74d050631fcc71fd9b"
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "building",
-        "building": {
           "buildingCode": "E6",
           "floors": [
             "1",
@@ -127,6 +106,28 @@
         "type": "Point"
       },
       "id": "100c01717d915e1aedc954622e136b79"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "PHY",
+          "floors": [
+            "1",
+            "2",
+            "3"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.541552,
+          43.470554
+        ],
+        "type": "Point"
+      },
+      "id": "14096aef75884962f2a24096ad69809a"
     },
     {
       "type": "Feature",
@@ -171,6 +172,26 @@
         "type": "Point"
       },
       "id": "1be1b796f819cddecdaf78149a75b5e7"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "EIT",
+          "floors": [
+            "1"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.542099,
+          43.47168
+        ],
+        "type": "Point"
+      },
+      "id": "1e1700a8e8d32bcb54b25f1dc8bdf001"
     },
     {
       "type": "Feature",
@@ -243,14 +264,16 @@
         "building": {
           "buildingCode": "DWE",
           "floors": [
+            "1",
+            "2",
             "3"
           ]
         }
       },
       "geometry": {
         "coordinates": [
-          -80.539691,
-          43.470091
+          -80.539685,
+          43.470083
         ],
         "type": "Point"
       },
@@ -298,6 +321,27 @@
         "type": "Point"
       },
       "id": "49004072376d926315f50f90ba2ee915"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "ESC",
+          "floors": [
+            "1",
+            "3"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.542399,
+          43.471168
+        ],
+        "type": "Point"
+      },
+      "id": "50ebe2270e61140f76f56cb84e6b3ff3"
     },
     {
       "type": "Feature",
@@ -392,7 +436,8 @@
           "buildingCode": "B2",
           "floors": [
             "1",
-            "2"
+            "2",
+            "3"
           ]
         }
       },
@@ -404,6 +449,27 @@
         "type": "Point"
       },
       "id": "65428f0a9380aab701fc4fa8a1b78e13"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "B1",
+          "floors": [
+            "1",
+            "3"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.543114,
+          43.47113
+        ],
+        "type": "Point"
+      },
+      "id": "73fea671370274c428714b26acf68192"
     },
     {
       "type": "Feature",
@@ -498,6 +564,29 @@
       "properties": {
         "type": "building",
         "building": {
+          "buildingCode": "CPH",
+          "floors": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.539213,
+          43.470747
+        ],
+        "type": "Point"
+      },
+      "id": "a542d88e537a0f9a896d25acff4b1de3"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
           "buildingCode": "ESC",
           "floors": [
             "2"
@@ -512,26 +601,6 @@
         "type": "Point"
       },
       "id": "aa3a97a1a35f60ebdf91172afe17a897"
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "building",
-        "building": {
-          "buildingCode": "CPH",
-          "floors": [
-            "3"
-          ]
-        }
-      },
-      "geometry": {
-        "coordinates": [
-          -80.53927,
-          43.470762
-        ],
-        "type": "Point"
-      },
-      "id": "acdc69f37f65c8e8a4f5d831a0b128e5"
     },
     {
       "type": "Feature",
@@ -665,6 +734,26 @@
         "type": "Point"
       },
       "id": "d692ff131df77fc9a24374e4c9d56224"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "EIT",
+          "floors": [
+            "2"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.541964,
+          43.47141
+        ],
+        "type": "Point"
+      },
+      "id": "e3347f4733ac63ea6ef3f745335a8536"
     },
     {
       "type": "Feature",
