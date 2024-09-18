@@ -6,7 +6,7 @@ import './App.css';
 
 import geoJson from './geojson/paths.json';
 import { getStartEndLocations, getBuildingFloorOptions, getBuildingOptions, getFloorOptions } from './locations';
-import { Dijkstra, AdjacencyList, Location, Route, BuildingFloor } from './algorithm/dijkstra';
+import { Dijkstra, AdjacencyList, Location, Route, BuildingFloor, GraphLocation } from './algorithm/dijkstra';
 import loadMap from './map/loadMap';
 import displayRoute from './map/displayRoute';
 import displayBaseGeoJson from './map/displayBaseGeoJson';
@@ -145,8 +145,11 @@ function App() {
 			{hasRoute ?
 				<div id="directions" className="absolute left-[2%] top-[30%] max-h-[65%] overflow-y-auto z-10 pl-10 pr-3 py-3 bg-gray-200/85 shadow-2xl">
 					{route != null ? <>
-						<div className="pb-2">{`Distance: ${Math.round(route?.graphLocations.at(-1)?.distance ?? 0).toLocaleString()}m, ` +
-							`⬆️${route?.graphLocations.at(-1)?.floorsAscended} floors, ⬇️ ${route?.graphLocations.at(-1)?.floorsDescended} floors`}</div>
+						<div className="pb-2">
+							{statsString(route).map(str =>
+								<div>{str}</div>
+							)}
+						</div>
 						<ol className="list-decimal ">
 							{route.getDirections().map(str => <li className="text-left">{str}</li>)}
 						</ol>
@@ -164,3 +167,12 @@ function App() {
 }
 
 export default App;
+
+function statsString(route: Route) {
+	const end = route.graphLocations.at(-1) as GraphLocation;
+	const time = Math.round(end.time/60);
+	return [
+		`Time: ${time == 0 ? '<1' : time}min, Distance: ${Math.round(end.distance ?? 0).toLocaleString()}m`,
+		`⬆️${end.floorsAscended} floors, ⬇️ ${end.floorsDescended} floors`
+	];
+}

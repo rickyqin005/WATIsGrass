@@ -112,6 +112,10 @@ export class GraphLocation {
      **/
     readonly distance: number;
     /**
+     * total time elapsed in seconds
+     */
+    readonly time: number;
+    /**
      * num floors to go up/down to get from prevLocation to location (a signed integer)
      **/
     readonly floorChange: number;
@@ -127,12 +131,13 @@ export class GraphLocation {
     constructor(loc: Location, path: [number, number][],
         prevLoc = null as GraphLocation | null,
         travelMode = null as string | null,
-        dist = 0, floorChange = 0, floorsAsc = 0, floorsDesc = 0) {
+        dist = 0, time = 0, floorChange = 0, floorsAsc = 0, floorsDesc = 0) {
         this.location = loc;
         this.path = path;
         this.prevLocation = prevLoc;
         this.travelMode = travelMode;
         this.distance = dist;
+        this.time = time;
         this.floorChange = floorChange;
         this.floorsAscended = floorsAsc;
         this.floorsDescended = floorsDesc;
@@ -158,8 +163,8 @@ export class Route {
             if(prevprev && prev && prevprev.location.buildingFloor.equals(prev.location.buildingFloor) &&
                 prev.location.buildingFloor.equals(curr.location.buildingFloor) && prev.travelMode == curr.travelMode) {
                 const newLoc = new GraphLocation(curr.location, prev.path.concat(curr.path.slice(1)),
-                prev.prevLocation, curr.travelMode, curr.distance, curr.floorChange,
-                curr.floorsAscended, curr.floorsDescended);
+                prev.prevLocation, curr.travelMode, curr.distance, curr.time,
+                curr.floorChange, curr.floorsAscended, curr.floorsDescended);
                 this.graphLocations.pop();
                 this.graphLocations.push(newLoc);
             } else this.graphLocations.push(curr);
@@ -189,9 +194,27 @@ export class Route {
 };
 
 export class Dijkstra {
-    static compareByDistance: ICompare<GraphLocation> = (a: GraphLocation, b: GraphLocation) => {
+    /**
+     * Walking speed in m/s
+     */
+    static readonly WALKING_SPEED = 1.25;
+    /**
+     * Time to ascend a floor in seconds
+     */
+    static readonly FLOOR_ASCEND_SPEED = 14;
+    /**
+     * Time to descend a floor in seconds
+     */
+    static readonly FLOOR_DESCEND_SPEED = 14;
+
+    static readonly COMPARE_BY_DISTANCE: ICompare<GraphLocation> = (a: GraphLocation, b: GraphLocation) => {
         return (a.distance < b.distance ? -1 : 1);
     }
+
+    static readonly COMPARE_BY_TIME: ICompare<GraphLocation> = (a: GraphLocation, b: GraphLocation) => {
+        return (a.time < b.time ? -1 : 1);
+    }
+
     private readonly _dis: Map<String, number>;
     readonly adjList: AdjacencyList;
 
@@ -205,7 +228,7 @@ export class Dijkstra {
      * If start and end are equal, a Route is returned with a single GraphLocation.
      */
     calculateRoute(start: Location, end: Location,
-        comparator = Dijkstra.compareByDistance as ICompare<GraphLocation>): Route | null {
+        comparator = Dijkstra.COMPARE_BY_TIME as ICompare<GraphLocation>): Route | null {
         const pq = new PriorityQueue<GraphLocation>(comparator);
         this._dis.clear();
         pq.push(new GraphLocation(start, [start.coordinate.toArray()]));
@@ -215,9 +238,12 @@ export class Dijkstra {
             if(curr.location.equals(end)) return new Route(curr);
             this.adjList.get(curr.location).forEach(edge => {
                 if(curr.distance + edge.length < this._getDistance(edge.end)) {
+                    console.log(curr.time + edge.length/Dijkstra.WALKING_SPEED +
+                        Math.abs(edge.floorChange)*(edge.floorChange > 0 ? Dijkstra.FLOOR_ASCEND_SPEED : Dijkstra.FLOOR_DESCEND_SPEED));
                     pq.push(new GraphLocation(
                         edge.end, edge.coordinates, curr, edge.type,
                         curr.distance + edge.length,
+                        curr.time + edge.length/Dijkstra.WALKING_SPEED + Math.abs(edge.floorChange)*(edge.floorChange > 0 ? Dijkstra.FLOOR_ASCEND_SPEED : Dijkstra.FLOOR_DESCEND_SPEED),
                         edge.floorChange,
                         curr.floorsAscended+Math.max(edge.floorChange, 0),
                         curr.floorsDescended-Math.min(edge.floorChange, 0)

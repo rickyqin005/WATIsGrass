@@ -65,7 +65,10 @@ export class Edge {
     readonly start: Location;
     readonly end: Location;
     readonly length: number;
-    readonly floorChange: number;// number of floors up/down
+    /**
+     *  Number of floors up/down (a signed integer)
+     */
+    readonly floorChange: number;
     readonly type: string;
     readonly coordinates: [number, number][];
 
