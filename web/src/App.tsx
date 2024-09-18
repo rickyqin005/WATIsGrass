@@ -69,8 +69,10 @@ function App() {
 
 			<div id="map" className="relative z-0 flex h-[100%] w-[100%]"></div>
 
-			<div id="header" className="absolute inset-y-[2%] h-[5%] z-10 flex items-center justify-center">
-				<h1 className="text-3xl font-bold p-1 bg-white/75 shadow-2xl">WATIsGrass: UW Tunnels</h1>
+			<div id="header" className="absolute inset-y-[2%] h-[5%] z-10 flex items-center justify-center ">
+				<h1 className="text-3xl font-bold p-1 bg-white/75 shadow-2xl rounded-3xl">
+					WATIsGrass: UW Tunnels
+				</h1>
 			</div>
 
 			<div id="input" className="absolute inset-y-[9%] h-[10%] z-10">
