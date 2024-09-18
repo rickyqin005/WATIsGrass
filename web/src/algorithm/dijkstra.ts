@@ -200,6 +200,10 @@ export class Dijkstra {
         this.adjList = adjList;
     }
 
+    /**
+     * Returns a Route object representing the route found. Returns null if no route is found.
+     * If start and end are equal, a Route is returned with a single GraphLocation.
+     */
     calculateRoute(start: Location, end: Location,
         comparator = Dijkstra.compareByDistance as ICompare<GraphLocation>): Route | null {
         const pq = new PriorityQueue<GraphLocation>(comparator);
