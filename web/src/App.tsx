@@ -7,9 +7,8 @@ import './App.css';
 import geoJson from './geojson/paths.json';
 import { getStartEndLocations, getBuildingFloorOptions, getBuildingOptions, getFloorOptions } from './locations';
 import { Dijkstra, AdjacencyList, Location, Route, BuildingFloor, GraphLocation } from './algorithm/dijkstra';
-import loadMap from './map/loadMap';
 import displayRoute from './map/displayRoute';
-import displayBaseGeoJson from './map/displayBaseGeoJson';
+import useLoadMap from './map/loadMap';
 
 type OptionType = {
 	value: string;
@@ -19,7 +18,7 @@ type OptionType = {
 function App() {
 
 	const UWMap = React.useMemo(() => new Dijkstra(new AdjacencyList(geoJson)), []);
-	const [googleMap, setGoogleMap] = useState(null);
+	const { googleMap } = useLoadMap();
 
 	const startEndLocations = React.useMemo(getStartEndLocations, []);
 	const buildingFloorOptions = React.useMemo(getBuildingFloorOptions, []);
@@ -54,15 +53,6 @@ function App() {
 			setHasRoute(true);
 		}
 	};
-
-	// loads map
-	React.useEffect(() => {
-		loadMap().then(map => {
-			console.log('loaded map');
-			setGoogleMap(map);
-			displayBaseGeoJson(map);
-		});
-	}, []);
 
 	return (
 		<div className="App flex flex-col items-center justify-center h-screen">
