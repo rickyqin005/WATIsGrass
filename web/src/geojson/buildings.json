@@ -626,6 +626,27 @@
       "properties": {
         "type": "building",
         "building": {
+          "buildingCode": "EIT",
+          "floors": [
+            "4",
+            "5"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.54207,
+          43.471702
+        ],
+        "type": "Point"
+      },
+      "id": "9546ceb707d25f6415fbe3ccbdefe286"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
           "buildingCode": "CPH",
           "floors": [
             "1",

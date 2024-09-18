@@ -238,8 +238,6 @@ export class Dijkstra {
             if(curr.location.equals(end)) return new Route(curr);
             this.adjList.get(curr.location).forEach(edge => {
                 if(curr.distance + edge.length < this._getDistance(edge.end)) {
-                    console.log(curr.time + edge.length/Dijkstra.WALKING_SPEED +
-                        Math.abs(edge.floorChange)*(edge.floorChange > 0 ? Dijkstra.FLOOR_ASCEND_SPEED : Dijkstra.FLOOR_DESCEND_SPEED));
                     pq.push(new GraphLocation(
                         edge.end, edge.coordinates, curr, edge.type,
                         curr.distance + edge.length,
