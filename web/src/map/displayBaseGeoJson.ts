@@ -6,7 +6,7 @@ import geoJson from '../geojson/paths.json';
 export default function displayBaseGeoJson(map) {
 	const lines = {
 		...geoJson,
-		features: geoJson.features.filter(f => f.geometry.type == 'LineString')
+		features: geoJson.features.filter(f => f.geometry.type == 'LineString' && f.properties.type != 'walkway')
 	};
 	map.data.addGeoJson(lines);
 	map.data.setStyle(feature => {

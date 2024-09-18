@@ -39,7 +39,7 @@ function App() {
 	React.useEffect(() => {
 		console.log(route?.graphLocations);
 		routeClear();
-		setRouteClear(displayRoute(googleMap, route));
+		displayRoute(googleMap, route).then(funct => setRouteClear(funct));
 	}, [route]);
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

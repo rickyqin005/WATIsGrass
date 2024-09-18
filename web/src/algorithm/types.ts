@@ -11,6 +11,10 @@ export class Coordinate {
         return this.latitude == other.latitude && this.longitude == other.longitude;
     }
 
+    toGoogleMapsCoordinate() {
+        return { lat: this.latitude, lng: this.longitude };
+    }
+
     toArray(): [number, number] {
         return [this.longitude, this.latitude];
     }
