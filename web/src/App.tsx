@@ -6,10 +6,10 @@ import './App.css';
 
 import geoJson from './geojson/paths.json';
 import { getStartEndLocations, getBuildingFloorOptions, getBuildingOptions, getFloorOptions } from './locations';
-
-
 import { Dijkstra, AdjacencyList, Location, Route, BuildingFloor } from './algorithm/dijkstra';
 import loadMap from './map/loadMap';
+import displayRoute from './map/displayRoute';
+import displayBaseGeoJson from './map/displayBaseGeoJson';
 
 type OptionType = {
 	value: string;
@@ -60,7 +60,7 @@ function App() {
 		loadMap().then(map => {
 			console.log('loaded map');
 			setGoogleMap(map);
-			displayAllGeoJson(map);
+			displayBaseGeoJson(map);
 		});
 	}, []);
 
@@ -160,39 +160,3 @@ function App() {
 }
 
 export default App;
-
-function displayAllGeoJson(map) {
-	const lines = {
-		...geoJson,
-		features: geoJson.features.filter(f => f.geometry.type == 'LineString')
-	};
-	map.data.addGeoJson(lines);
-	map.data.setStyle(feature => {
-		const type = feature.getProperty('type');
-		let strokeColor = 'black';
-		if (type == 'bridge') strokeColor = 'green';
-		if (type == 'hallway') strokeColor = '#668cff';
-		if (type == 'tunnel') strokeColor = '#86592d';
-		return {
-			strokeColor: strokeColor,
-			strokeWeight: 4
-		};
-	});
-}
-
-// returns a function to clear the route from the map
-function displayRoute(googleMap, route: Route | null) {
-	if(route != null) {
-		const lines = route.graphLocations.filter((loc, idx) => idx != 0)
-		.map(loc => new google.maps.Polyline({
-			path: loc.path.map(point => { return { lat: point[1], lng: point[0] } }) as any[],
-			strokeColor: 'red',
-			strokeWeight: 6,
-			zIndex: 1
-		}));
-		lines.forEach(line => line.setMap(googleMap));
-
-		return () => () => lines.forEach(line => line.setMap(null));
-	}
-	return () => () => {};
-}
