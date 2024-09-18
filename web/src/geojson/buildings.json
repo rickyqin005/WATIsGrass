@@ -69,12 +69,33 @@
       "properties": {
         "type": "building",
         "building": {
+          "buildingCode": "E3",
+          "floors": [
+            "3"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.541042,
+          43.471928
+        ],
+        "type": "Point"
+      },
+      "id": "08a8bcc2ea0ca2a86c4982c445a44298"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
           "buildingCode": "E6",
           "floors": [
             "1",
             "2",
             "3",
-            "4"
+            "4",
+            "5"
           ]
         }
       },
@@ -159,8 +180,7 @@
         "building": {
           "buildingCode": "E3",
           "floors": [
-            "2",
-            "3"
+            "2"
           ]
         }
       },
@@ -192,6 +212,26 @@
         "type": "Point"
       },
       "id": "1e1700a8e8d32bcb54b25f1dc8bdf001"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "SLC",
+          "floors": [
+            "3"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.545395,
+          43.471899
+        ],
+        "type": "Point"
+      },
+      "id": "2144ffcb56f6e09123839a17f0bf36a6"
     },
     {
       "type": "Feature",
@@ -244,14 +284,15 @@
         "building": {
           "buildingCode": "HH",
           "floors": [
-            "1"
+            "1",
+            "2"
           ]
         }
       },
       "geometry": {
         "coordinates": [
-          -80.541732,
-          43.467984
+          -80.541742,
+          43.468125
         ],
         "type": "Point"
       },
@@ -411,6 +452,26 @@
       "properties": {
         "type": "building",
         "building": {
+          "buildingCode": "HH",
+          "floors": [
+            "3"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.541615,
+          43.468036
+        ],
+        "type": "Point"
+      },
+      "id": "61f2910329c38f2ec38deaffdfb51925"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
           "buildingCode": "ML",
           "floors": [
             "1",
@@ -539,14 +600,15 @@
       "properties": {
         "type": "building",
         "building": {
-          "buildingCode": "E5",
+          "buildingCode": "E7",
           "floors": [
             "1",
             "2",
             "3",
             "4",
             "5",
-            "6"
+            "6",
+            "7"
           ]
         }
       },
@@ -607,7 +669,7 @@
       "properties": {
         "type": "building",
         "building": {
-          "buildingCode": "E7",
+          "buildingCode": "E5",
           "floors": [
             "1",
             "2",
@@ -694,6 +756,35 @@
       "properties": {
         "type": "building",
         "building": {
+          "buildingCode": "DP",
+          "floors": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.542254,
+          43.469706
+        ],
+        "type": "Point"
+      },
+      "id": "cfdb11426715dd72df51806eb149b7ef"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
           "buildingCode": "STC",
           "floors": [
             "B1",
@@ -768,8 +859,8 @@
       },
       "geometry": {
         "coordinates": [
-          -80.540479,
-          43.471916
+          -80.541102,
+          43.472106
         ],
         "type": "Point"
       },
@@ -907,6 +998,7 @@
         "building": {
           "buildingCode": "QNC",
           "floors": [
+            "B",
             "1",
             "2"
           ]
@@ -920,6 +1012,28 @@
         "type": "Point"
       },
       "id": "fdabdd687cbfe1d46b03e49b92d6801c"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "QNC",
+          "floors": [
+            "3",
+            "4",
+            "5"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.543669,
+          43.471158
+        ],
+        "type": "Point"
+      },
+      "id": "fe80929fdd7b80a7821f08df6711c1e7"
     }
   ],
   "type": "FeatureCollection"
