@@ -1,55 +1,75 @@
-import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Select, { SingleValue } from 'react-select';
 
 import './App.css';
 
 import geoJson from './geojson/paths.json';
-import { getStartEndLocations, getBuildingFloorOptions, getBuildingOptions, getFloorOptions } from './locations';
-import { Dijkstra, AdjacencyList, Location, Route, BuildingFloor, GraphLocation } from './algorithm/dijkstra';
+import { getStartEndLocations, getBuildingFloorOptions, getBuildingOptions, getFloorOptions, OptionType } from './map/locations';
+import { Dijkstra, AdjacencyList, Route, GraphLocation } from './algorithm/dijkstra';
 import displayRoute from './map/displayRoute';
 import useLoadMap from './map/loadMap';
+import useGoogleMapsLibrary from './hooks/useGoogleMapsLibrary';
+import updateLocation from './map/updateLocation';
 
-type OptionType = {
-	value: string;
-	label: string;
-};
 
 function App() {
-
-	const UWMap = React.useMemo(() => new Dijkstra(new AdjacencyList(geoJson)), []);
+	const UWMap = useMemo(() => new Dijkstra(new AdjacencyList(geoJson)), []);
 	const { googleMap } = useLoadMap();
+	const { library: Markers } = useGoogleMapsLibrary("marker");
 
-	const startEndLocations = React.useMemo(getStartEndLocations, []);
-	const buildingFloorOptions = React.useMemo(getBuildingFloorOptions, []);
+
+	const startEndLocations = useMemo(getStartEndLocations, []);
+	const buildingFloorOptions = useMemo(getBuildingFloorOptions, []);
+
 
 	const [startBuilding, setStartBuilding] = useState<SingleValue<OptionType>>(null);
 	const [startFloor, setStartFloor] = useState<SingleValue<OptionType>>(null);
+	const [startLocationMarker, setStartLocationMarker] = useState<google.maps.marker.AdvancedMarkerElement | null>(null);
 	const [endBuilding, setEndBuilding] = useState<SingleValue<OptionType>>(null);
 	const [endFloor, setEndFloor] = useState<SingleValue<OptionType>>(null);
-	const buildingOptions = React.useMemo(getBuildingOptions(buildingFloorOptions), []);
-	const startFloorOptions = React.useMemo(getFloorOptions(buildingFloorOptions, startBuilding), [startBuilding]);
-	const endFloorOptions = React.useMemo(getFloorOptions(buildingFloorOptions, endBuilding), [endBuilding]);
+	const [endLocationMarker, endStartLocationMarker] = useState<google.maps.marker.AdvancedMarkerElement | null>(null);
+
 
 	const [hasRoute, setHasRoute] = useState(false);
 	const [route, setRoute] = useState<Route | null>(null);
 	const [routeClear, setRouteClear] = useState<() => void>(() => () => {});
 
-	React.useEffect(() => {
-		console.log(route?.graphLocations);
-		routeClear();
-		displayRoute(googleMap, route).then(funct => setRouteClear(funct));
-	}, [route]);
+
+	const buildingOptions = useMemo(getBuildingOptions(buildingFloorOptions), []);
+	const startFloorOptions = useMemo(getFloorOptions(buildingFloorOptions, startBuilding), [startBuilding]);
+	const endFloorOptions = useMemo(getFloorOptions(buildingFloorOptions, endBuilding), [endBuilding]);
+
+
+	const startLocation = useMemo(updateLocation(
+		startBuilding, startFloor, startEndLocations, startLocationMarker, setStartLocationMarker, route, setRoute,
+		routeClear, setRouteClear, setHasRoute, googleMap, Markers
+	), [startBuilding, startFloor]);
+	const endLocation = useMemo(updateLocation(
+		endBuilding, endFloor, startEndLocations, endLocationMarker, endStartLocationMarker, route, setRoute,
+		routeClear, setRouteClear, setHasRoute, googleMap, Markers,
+		Markers ? new Markers.PinElement({
+			background: '#009933',
+			borderColor: '#196619',
+			glyphColor: '#196619'
+		}).element : undefined
+	), [endBuilding, endFloor]);
+
+
+	// update route on map
+	useEffect(() => {
+		if(hasRoute) {
+			console.log(route?.graphLocations);
+			routeClear();
+			setRouteClear(displayRoute(googleMap, route));
+		}
+	}, [route, hasRoute]);
+
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (googleMap && startBuilding && startFloor && endBuilding && endFloor) {
-			const startBuildingFloor = new BuildingFloor({ buildingCode: startBuilding.value, floor: startFloor.value });
-			const endBuildingFloor = new BuildingFloor({ buildingCode: endBuilding.value, floor: endFloor.value });
-			console.log(`Start: ${startBuildingFloor.toString()}, End: ${endBuildingFloor.toString()}`);
-
-			setRoute(UWMap.calculateRoute(startEndLocations.get(startBuildingFloor.toString()) as Location, 
-				startEndLocations.get(endBuildingFloor.toString()) as Location));
+		if(googleMap && startLocation && endLocation) {
+			console.log(`Start: ${startLocation.toString()}, End: ${endLocation.toString()}`);
+			setRoute(UWMap.calculateRoute(startLocation, endLocation));
 			setHasRoute(true);
 		}
 	};

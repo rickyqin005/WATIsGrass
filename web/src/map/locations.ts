@@ -1,6 +1,11 @@
 import { SingleValue } from 'react-select';
-import { Coordinate, BuildingFloor, Location } from './algorithm/types';
-import buildings from './geojson/buildings.json';
+import { Coordinate, BuildingFloor, Location } from '../algorithm/types';
+import buildings from '../geojson/buildings.json';
+
+export type OptionType = {
+	value: string;
+	label: string;
+};
 
 export function getStartEndLocations() {
     return new Map<string, Location>(buildings.features.map(building =>
