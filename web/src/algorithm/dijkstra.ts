@@ -148,48 +148,72 @@ export class Route {
     readonly graphLocations: GraphLocation[];
 
     constructor(endLocation: GraphLocation) {
-        const arr: GraphLocation[] = [];
+        const arr1: GraphLocation[] = [];
         let curr: GraphLocation | null = endLocation;
         while(curr != null) {
-            arr.push(curr);
+            arr1.push(curr);
             curr = curr.prevLocation;
         }
-        arr.reverse();
-        this.graphLocations = [];
-        for(let i = 0; i < arr.length; i++) {
-            const prevprev = this.graphLocations.at(-2);
-            const prev = this.graphLocations.at(-1);
-            const curr = arr[i];
+        arr1.reverse();
+        const arr2: GraphLocation[] = [];
+        // merge paths that start and end at the same building and floor (includes outside pathways as well)
+        for(let i = 0; i < arr1.length; i++) {
+            const prevprev = arr2.at(-2);
+            const prev = arr2.at(-1);
+            const curr = arr1[i];
             if(prevprev && prev && prevprev.location.buildingFloor.equals(prev.location.buildingFloor) &&
                 prev.location.buildingFloor.equals(curr.location.buildingFloor) && prev.travelMode == curr.travelMode) {
                 const newLoc = new GraphLocation(curr.location, prev.path.concat(curr.path.slice(1)),
                 prev.prevLocation, curr.travelMode, curr.distance, curr.time,
                 curr.floorChange, curr.floorsAscended, curr.floorsDescended);
-                this.graphLocations.pop();
-                this.graphLocations.push(newLoc);
+                arr2.pop();
+                arr2.push(newLoc);
+            } else arr2.push(curr);
+        }
+
+        this.graphLocations = [];
+        // merge outdoor segments: [door(A, outside), walkway(outside, outside), door(outside, B)] => [walkway(A, B)]
+        for(let i = 0; i < arr2.length; i++) {
+            const curr = arr2[i];
+            if(curr.travelMode == 'door' && curr.location.buildingFloor.buildingCode == 'OUT' && curr.location.buildingFloor.floor == '0') {
+                console.assert(i+2 < arr2.length);
+                const next = arr2[i+1];
+                console.assert(next.travelMode == 'walkway');
+                const nextNext = arr2[i+2];
+                console.assert(nextNext.travelMode == 'door');
+                this.graphLocations.push(new GraphLocation(
+                    nextNext.location, next.path.concat(nextNext.path.slice(1)),
+                    next.prevLocation, 'walkway', nextNext.distance, nextNext.time,
+                    nextNext.floorChange, nextNext.floorsAscended, nextNext.floorsDescended
+                ));
+                i += 2;
             } else this.graphLocations.push(curr);
         }
     }
 
     getDirections() {
-        return this.graphLocations.filter((loc, idx) => idx != 0)
-        .map(loc => {
-            const currSegmentEnd = loc.location;
+        const directions: string[] = [];
+        for(let i = 1; i < this.graphLocations.length; i++) {
+            const loc = this.graphLocations[i];
+            const endBuilding = loc.location.buildingFloor; // the building at the end of this segment
             let str = '';
             if(loc.travelMode == 'open') {
-                str = `Continue into ${currSegmentEnd.buildingFloor.toDirectionString()}`;
+                str = `Continue into ${endBuilding.toDirectionString()}`;
             } else if(loc.travelMode == 'door') {
-                str = `Go through the door to ${currSegmentEnd.buildingFloor.toDirectionString()}`;
+                str = `Go through the door to ${endBuilding.toDirectionString()}`;
             } else if(loc.travelMode == 'stairs') {
                 console.assert(loc.floorChange != 0);
-                str = `Go ${loc.floorChange > 0 ? 'up' : 'down'} ${Math.abs(loc.floorChange)} floor${Math.abs(loc.floorChange) == 1 ? '' : 's'} to ${currSegmentEnd.buildingFloor.toDirectionString()}`;
+                str = `Go ${loc.floorChange > 0 ? '⬆️' : '⬇️'} ${Math.abs(loc.floorChange)} floor${Math.abs(loc.floorChange) == 1 ? '' : 's'} to ${endBuilding.toDirectionString()}`;
             } else if(loc.travelMode == 'hallway') {
-                str = `Take the ${loc.travelMode} on ${currSegmentEnd.buildingFloor.toDirectionString()}`;
+                str = `Take the ${loc.travelMode} on ${endBuilding.toDirectionString()}`;
+            } else if(loc.travelMode == 'walkway') {
+                str = `Go outside and walk to ${endBuilding.toDirectionString()}`;
             } else {
-                str = `Take the ${loc.travelMode} to ${currSegmentEnd.buildingFloor.toDirectionString()}`;
+                str = `Take the ${loc.travelMode} to ${endBuilding.toDirectionString()}`;
             }
-            return str;
-        });
+            directions.push(str);
+        }
+        return directions;
     }
 };
 

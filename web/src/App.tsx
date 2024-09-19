@@ -153,14 +153,14 @@ function App() {
 			</div>
 
 			{hasRoute ?
-				<div id="directions" className="absolute left-[2%] top-[30%] max-h-[65%] overflow-y-auto z-10 pl-10 pr-3 py-3 bg-gray-200/85 shadow-2xl">
+				<div id="directions" className="absolute left-[2%] top-[30%] max-h-[65%] overflow-y-auto z-20 pl-10 pr-3 py-3 bg-gray-200/85 shadow-2xl">
 					{route != null ? <>
 						<div className="pb-2">
 							{statsString(route).map(str =>
 								<div>{str}</div>
 							)}
 						</div>
-						<ol className="list-decimal ">
+						<ol className="list-decimal">
 							{route.getDirections().map(str => <li className="text-left">{str}</li>)}
 						</ol>
 					</>: 'No routes found :('}
