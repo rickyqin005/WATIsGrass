@@ -11,6 +11,7 @@ import useLoadMap from './map/loadMap';
 import useGoogleMapsLibrary from './hooks/useGoogleMapsLibrary';
 import updateLocation from './map/updateLocation';
 import DirectionsListItem from './components/DirectionsListItem';
+import useBaseGeoJson from './hooks/useBaseGeoJson';
 
 
 function App() {
@@ -54,6 +55,8 @@ function App() {
 			glyphColor: '#196619'
 		}).element : undefined
 	), [endBuilding, endFloor]);
+
+	useBaseGeoJson(googleMap, geoJson, hasRoute);
 
 
 	// update route on map

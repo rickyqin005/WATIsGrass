@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import useGoogleMapsLibrary from "../hooks/useGoogleMapsLibrary";
-import displayBaseGeoJson from "./displayBaseGeoJson";
 
 export default function useLoadMap() {
     const [googleMap, setGoogleMap] = useState<any>(null);
@@ -24,7 +23,6 @@ export default function useLoadMap() {
 
         console.log('loaded map');
 		setGoogleMap(map);
-		displayBaseGeoJson(map);
     });
     
     return { googleMap, setGoogleMap };
