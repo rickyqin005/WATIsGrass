@@ -560,6 +560,26 @@
       "properties": {
         "type": "building",
         "building": {
+          "buildingCode": "MKV",
+          "floors": [
+            "1"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.551844,
+          43.471188
+        ],
+        "type": "Point"
+      },
+      "id": "7846f7ddc94d4fd987c907bc13702a57"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
           "buildingCode": "EV2",
           "floors": [
             "1"
@@ -574,6 +594,26 @@
         "type": "Point"
       },
       "id": "88340fe5a87c4bcdf79e38e9e2113647"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "REV",
+          "floors": [
+            "1"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.553819,
+          43.47015
+        ],
+        "type": "Point"
+      },
+      "id": "8a3c9cf5907e97b1906aecba7f63f1f6"
     },
     {
       "type": "Feature",
@@ -831,6 +871,26 @@
       "properties": {
         "type": "building",
         "building": {
+          "buildingCode": "CMH",
+          "floors": [
+            "1"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.535891,
+          43.470234
+        ],
+        "type": "Point"
+      },
+      "id": "d672a4a0fb3d7eaddabeea053f1e37b0"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
           "buildingCode": "RCH",
           "floors": [
             "1",
@@ -900,8 +960,8 @@
       },
       "geometry": {
         "coordinates": [
-          -80.543118,
-          43.470928
+          -80.5431,
+          43.470934
         ],
         "type": "Point"
       },
@@ -1033,6 +1093,26 @@
         "type": "Point"
       },
       "id": "fdabdd687cbfe1d46b03e49b92d6801c"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "V1",
+          "floors": [
+            "1"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.55003,
+          43.471521
+        ],
+        "type": "Point"
+      },
+      "id": "fe64efbb56b003ffdd0c64d49d95472a"
     },
     {
       "type": "Feature",
