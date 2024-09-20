@@ -142,6 +142,26 @@ export class GraphLocation {
         this.floorsAscended = floorsAsc;
         this.floorsDescended = floorsDesc;
     }
+
+    toDirectionsString() {
+        const endBuilding = this.location.buildingFloor; // the building at the end of this segment
+        let str = '';
+        if(this.travelMode == 'open') {
+            str = `Continue into ${endBuilding.toDirectionString()}`;
+        } else if(this.travelMode == 'door') {
+            str = `Go through the door to ${endBuilding.toDirectionString()}`;
+        } else if(this.travelMode == 'stairs') {
+            console.assert(this.floorChange != 0);
+            str = `Go ${this.floorChange > 0 ? '⬆️' : '⬇️'} ${Math.abs(this.floorChange)} floor${Math.abs(this.floorChange) == 1 ? '' : 's'} to ${endBuilding.toDirectionString()}`;
+        } else if(this.travelMode == 'hallway') {
+            str = `Take the ${this.travelMode} on ${endBuilding.toDirectionString()}`;
+        } else if(this.travelMode == 'walkway') {
+            str = `Go outside and walk to ${endBuilding.toDirectionString()}`;
+        } else {
+            str = `Take the ${this.travelMode} to ${endBuilding.toDirectionString()}`;
+        }
+        return str;
+    }
 };
 
 export class Route {
@@ -189,31 +209,6 @@ export class Route {
                 i += 2;
             } else this.graphLocations.push(curr);
         }
-    }
-
-    getDirections() {
-        const directions: string[] = [];
-        for(let i = 1; i < this.graphLocations.length; i++) {
-            const loc = this.graphLocations[i];
-            const endBuilding = loc.location.buildingFloor; // the building at the end of this segment
-            let str = '';
-            if(loc.travelMode == 'open') {
-                str = `Continue into ${endBuilding.toDirectionString()}`;
-            } else if(loc.travelMode == 'door') {
-                str = `Go through the door to ${endBuilding.toDirectionString()}`;
-            } else if(loc.travelMode == 'stairs') {
-                console.assert(loc.floorChange != 0);
-                str = `Go ${loc.floorChange > 0 ? '⬆️' : '⬇️'} ${Math.abs(loc.floorChange)} floor${Math.abs(loc.floorChange) == 1 ? '' : 's'} to ${endBuilding.toDirectionString()}`;
-            } else if(loc.travelMode == 'hallway') {
-                str = `Take the ${loc.travelMode} on ${endBuilding.toDirectionString()}`;
-            } else if(loc.travelMode == 'walkway') {
-                str = `Go outside and walk to ${endBuilding.toDirectionString()}`;
-            } else {
-                str = `Take the ${loc.travelMode} to ${endBuilding.toDirectionString()}`;
-            }
-            directions.push(str);
-        }
-        return directions;
     }
 };
 

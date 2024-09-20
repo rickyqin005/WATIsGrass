@@ -10,6 +10,7 @@ import displayRoute from './map/displayRoute';
 import useLoadMap from './map/loadMap';
 import useGoogleMapsLibrary from './hooks/useGoogleMapsLibrary';
 import updateLocation from './map/updateLocation';
+import DirectionsListItem from './components/DirectionsListItem';
 
 
 function App() {
@@ -152,17 +153,16 @@ function App() {
 				</form>
 			</div>
 
-			{hasRoute ?
-				<div id="directions" className="absolute left-[2%] top-[30%] max-h-[65%] overflow-y-auto z-20 pl-10 pr-3 py-3 bg-gray-200/85 shadow-2xl">
+			{hasRoute && googleMap ?
+				<div id="directions" className="absolute left-[2%] top-[25%] max-h-[65%] overflow-y-auto z-20 py-4 bg-gray-200/85 shadow-2xl">
 					{route != null ? <>
 						<div className="pb-2">
 							{statsString(route).map(str =>
 								<div>{str}</div>
 							)}
 						</div>
-						<ol className="list-decimal">
-							{route.getDirections().map(str => <li className="text-left">{str}</li>)}
-						</ol>
+						{route.graphLocations.slice(1).map((graphLocation, idx) =>
+							<DirectionsListItem googleMap={googleMap} graphLocation={graphLocation} order={idx+1} />)}
 					</>: 'No routes found :('}
 				</div>
 			: ''}
