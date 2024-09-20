@@ -5920,34 +5920,6 @@
       "properties": {
         "type": "hallway",
         "start": {
-          "buildingCode": "E3",
-          "floor": "2"
-        },
-        "end": {
-          "buildingCode": "E3",
-          "floor": "2"
-        }
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            -80.54092,
-            43.471761
-          ],
-          [
-            -80.540479,
-            43.471916
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": "f08dc5ffdb6c9d06a9502d06c8bfd5f9"
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "hallway",
-        "start": {
           "buildingCode": "E6",
           "floor": "3"
         },

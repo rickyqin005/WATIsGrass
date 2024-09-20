@@ -156,7 +156,7 @@ function App() {
 				</form>
 			</div>
 
-			{hasRoute && googleMap ?
+			{hasRoute && googleMap && Markers ?
 				<div id="directions" className="absolute left-[2%] top-[25%] max-h-[65%] overflow-y-auto z-20 py-4 bg-gray-200/85 shadow-2xl">
 					{route != null ? <>
 						<div className="pb-2">
@@ -165,7 +165,7 @@ function App() {
 							)}
 						</div>
 						{route.graphLocations.slice(1).map((graphLocation, idx) =>
-							<DirectionsListItem googleMap={googleMap} graphLocation={graphLocation} order={idx+1} />)}
+							<DirectionsListItem googleMap={googleMap} graphLocation={graphLocation} order={idx+1} Markers={Markers} />)}
 					</>: 'No routes found :('}
 				</div>
 			: ''}
