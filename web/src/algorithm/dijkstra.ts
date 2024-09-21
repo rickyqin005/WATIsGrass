@@ -116,6 +116,10 @@ export class GraphLocation {
      */
     readonly time: number;
     /**
+     * total time elapsed outside in seconds
+     */
+    readonly timeOutside: number;
+    /**
      * num floors to go up/down to get from prevLocation to location (a signed integer)
      **/
     readonly floorChange: number;
@@ -131,13 +135,15 @@ export class GraphLocation {
     constructor(loc: Location, path: [number, number][],
         prevLoc = null as GraphLocation | null,
         travelMode = null as string | null,
-        dist = 0, time = 0, floorChange = 0, floorsAsc = 0, floorsDesc = 0) {
+        dist = 0, time = 0, timeOutside = 0, floorChange = 0, floorsAsc = 0, floorsDesc = 0) {
         this.location = loc;
         this.path = path;
         this.prevLocation = prevLoc;
         this.travelMode = travelMode;
         this.distance = dist;
         this.time = time;
+        this.timeOutside = timeOutside;
+        console.assert(timeOutside <= time);
         this.floorChange = floorChange;
         this.floorsAscended = floorsAsc;
         this.floorsDescended = floorsDesc;
@@ -151,8 +157,9 @@ export class GraphLocation {
         } else if(this.travelMode == 'door') {
             str = `Go through the door to ${endBuilding.toDirectionString()}`;
         } else if(this.travelMode == 'stairs') {
-            console.assert(this.floorChange != 0);
-            str = `Go ${this.floorChange > 0 ? '⬆️' : '⬇️'} ${Math.abs(this.floorChange)} floor${Math.abs(this.floorChange) == 1 ? '' : 's'} to ${endBuilding.toDirectionString()}`;
+            if(this.floorChange == 0) str = `Go through the stairwell to ${endBuilding.toDirectionString()}`;
+            else str = `Go ${this.floorChange > 0 ? '⬆️' : '⬇️'} ${Math.abs(this.floorChange)} floor` + 
+            `${Math.abs(this.floorChange) == 1 ? '' : 's'} to ${endBuilding.toDirectionString()}`;
         } else if(this.travelMode == 'hallway') {
             str = `Take the ${this.travelMode} on ${endBuilding.toDirectionString()}`;
         } else if(this.travelMode == 'walkway') {
@@ -184,7 +191,7 @@ export class Route {
             if(prevprev && prev && prevprev.location.buildingFloor.equals(prev.location.buildingFloor) &&
                 prev.location.buildingFloor.equals(curr.location.buildingFloor) && prev.travelMode == curr.travelMode) {
                 const newLoc = new GraphLocation(curr.location, prev.path.concat(curr.path.slice(1)),
-                prev.prevLocation, curr.travelMode, curr.distance, curr.time,
+                prev.prevLocation, curr.travelMode, curr.distance, curr.time, curr.timeOutside,
                 curr.floorChange, curr.floorsAscended, curr.floorsDescended);
                 arr2.pop();
                 arr2.push(newLoc);
@@ -203,7 +210,8 @@ export class Route {
                 console.assert(nextNext.travelMode == 'door');
                 this.graphLocations.push(new GraphLocation(
                     nextNext.location, next.path.concat(nextNext.path.slice(1)),
-                    next.prevLocation, 'walkway', nextNext.distance, nextNext.time,
+                    next.prevLocation, 'walkway', nextNext.distance,
+                    nextNext.time, nextNext.timeOutside,
                     nextNext.floorChange, nextNext.floorsAscended, nextNext.floorsDescended
                 ));
                 i += 2;
@@ -226,13 +234,25 @@ export class Dijkstra {
      */
     static readonly FLOOR_DESCEND_SPEED = 14;
 
-    static readonly COMPARE_BY_DISTANCE: ICompare<GraphLocation> = (a: GraphLocation, b: GraphLocation) => {
-        return (a.distance < b.distance ? -1 : 1);
-    }
+    static readonly COMPARATOR_OPTIONS = [
+        { value: 'COMPARE_BY_TIME', label: 'Where Possible'},
+		{ value: 'COMPARE_BY_TIME_OUTSIDE_THEN_TIME', label: 'At all costs'}
+    ];
 
-    static readonly COMPARE_BY_TIME: ICompare<GraphLocation> = (a: GraphLocation, b: GraphLocation) => {
-        return (a.time < b.time ? -1 : 1);
-    }
+    static readonly COMPARATORS = new Map<string, ICompare<GraphLocation>>([
+        [
+            'COMPARE_BY_TIME',
+            (a: GraphLocation, b: GraphLocation) => {
+                return (a.time < b.time ? -1 : 1);
+            }
+        ], [
+            'COMPARE_BY_TIME_OUTSIDE_THEN_TIME',
+            (a: GraphLocation, b: GraphLocation) => {
+                if(a.timeOutside == b.timeOutside) return (a.time < b.time ? -1 : 1);
+                return (a.timeOutside < b.timeOutside ? -1 : 1)
+            }
+        ]
+    ]);
 
     private readonly _dis: Map<String, number>;
     readonly adjList: AdjacencyList;
@@ -257,10 +277,12 @@ export class Dijkstra {
             if(curr.location.equals(end)) return new Route(curr);
             this.adjList.get(curr.location).forEach(edge => {
                 if(curr.distance + edge.length < this._getDistance(edge.end)) {
+                    const edgeTime = edge.length/Dijkstra.WALKING_SPEED + Math.abs(edge.floorChange)*(edge.floorChange > 0 ? Dijkstra.FLOOR_ASCEND_SPEED : Dijkstra.FLOOR_DESCEND_SPEED);
                     pq.push(new GraphLocation(
                         edge.end, edge.coordinates, curr, edge.type,
                         curr.distance + edge.length,
-                        curr.time + edge.length/Dijkstra.WALKING_SPEED + Math.abs(edge.floorChange)*(edge.floorChange > 0 ? Dijkstra.FLOOR_ASCEND_SPEED : Dijkstra.FLOOR_DESCEND_SPEED),
+                        curr.time + edgeTime,
+                        curr.timeOutside + (edge.type == 'walkway' ? edgeTime : 0),
                         edge.floorChange,
                         curr.floorsAscended+Math.max(edge.floorChange, 0),
                         curr.floorsDescended-Math.min(edge.floorChange, 0)

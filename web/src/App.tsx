@@ -30,6 +30,7 @@ function App() {
 	const [endBuilding, setEndBuilding] = useState<SingleValue<OptionType>>(null);
 	const [endFloor, setEndFloor] = useState<SingleValue<OptionType>>(null);
 	const [endLocationMarker, endStartLocationMarker] = useState<google.maps.marker.AdvancedMarkerElement | null>(null);
+	const [tunnellingPreference, setTunnellingPreference] = useState<OptionType>(Dijkstra.COMPARATOR_OPTIONS[0]);
 
 
 	const [hasRoute, setHasRoute] = useState(false);
@@ -45,7 +46,7 @@ function App() {
 	const startLocation = useMemo(updateLocation(
 		startBuilding, startFloor, startEndLocations, startLocationMarker, setStartLocationMarker, route, setRoute,
 		routeClear, setRouteClear, setHasRoute, googleMap, Markers
-	), [startBuilding, startFloor]);
+	), [startBuilding, startFloor, tunnellingPreference]);
 	const endLocation = useMemo(updateLocation(
 		endBuilding, endFloor, startEndLocations, endLocationMarker, endStartLocationMarker, route, setRoute,
 		routeClear, setRouteClear, setHasRoute, googleMap, Markers,
@@ -54,7 +55,7 @@ function App() {
 			borderColor: '#196619',
 			glyphColor: '#196619'
 		}).element : undefined
-	), [endBuilding, endFloor]);
+	), [endBuilding, endFloor, tunnellingPreference]);
 
 	useBaseGeoJson(googleMap, geoJson, hasRoute);
 
@@ -73,7 +74,7 @@ function App() {
 		e.preventDefault();
 		if(googleMap && startLocation && endLocation) {
 			console.log(`Start: ${startLocation.toString()}, End: ${endLocation.toString()}`);
-			setRoute(UWMap.calculateRoute(startLocation, endLocation));
+			setRoute(UWMap.calculateRoute(startLocation, endLocation, Dijkstra.COMPARATORS.get(tunnellingPreference.value)));
 			setHasRoute(true);
 		}
 	};
@@ -90,7 +91,7 @@ function App() {
 			</div>
 
 			<div id="input" className="absolute inset-y-[9%] h-[10%] z-10">
-				<form className="flex items-center space-x-4 p-4 bg-gray-100 rounded shadow-md w-full max-w-2xl" onSubmit={e => handleSubmit(e)}>
+				<form className="flex items-center space-x-4 p-4 bg-gray-100 rounded shadow-md w-full " onSubmit={e => handleSubmit(e)}>
 					<div className="flex flex-col">
 						<label htmlFor="start-building" className="mb-1 text-gray-700 font-semibold">
 							Start Building
@@ -145,6 +146,20 @@ function App() {
 							classNamePrefix="react-select"
 							value={endFloor}
 							onChange={newVal => setEndFloor(newVal)}
+						/>
+					</div>
+					<div className="flex flex-col">
+						<label htmlFor="end-floor" className="mb-1 text-gray-700 font-semibold">
+							Tunnelling Preference
+						</label>
+						<Select
+							id="tunnelling-preference"
+							name="tunnelling-preference"
+							options={Dijkstra.COMPARATOR_OPTIONS}
+							className="react-select-container"
+							classNamePrefix="react-select"
+							value={tunnellingPreference}
+							onChange={newVal => setTunnellingPreference(newVal)}
 						/>
 					</div>
 					<input

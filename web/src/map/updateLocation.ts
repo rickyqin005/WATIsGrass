@@ -4,6 +4,9 @@ import { BuildingFloor, Location } from "../algorithm/types";
 import { GoogleMapsLibrary } from "./GoogleMapsLibrary";
 import { Route } from "../algorithm/dijkstra";
 
+/**
+ * Updates starting or ending location markers and clears the route currently being displayed
+ */
 export default function updateLocation(startBuilding: SingleValue<OptionType>, startFloor: SingleValue<OptionType>,
     startEndLocations: Map<string, Location>, startLocationMarker: google.maps.marker.AdvancedMarkerElement | null,
     setStartLocationMarker: React.Dispatch<React.SetStateAction<google.maps.marker.AdvancedMarkerElement | null>>,
