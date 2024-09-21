@@ -303,6 +303,26 @@
       "properties": {
         "type": "building",
         "building": {
+          "buildingCode": "BMH",
+          "floors": [
+            "1"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.545472,
+          43.473852
+        ],
+        "type": "Point"
+      },
+      "id": "36b8acadd1ea722b210058fcbb26468a"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
           "buildingCode": "DWE",
           "floors": [
             "1",
@@ -574,6 +594,26 @@
         "type": "Point"
       },
       "id": "7846f7ddc94d4fd987c907bc13702a57"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "building",
+        "building": {
+          "buildingCode": "EXP",
+          "floors": [
+            "1"
+          ]
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.545922,
+          43.473461
+        ],
+        "type": "Point"
+      },
+      "id": "881dea7758f719589053af9d8f7b84fb"
     },
     {
       "type": "Feature",
