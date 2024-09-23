@@ -2,11 +2,13 @@
 
 A helpful guide to navigate UW's bridges and tunnels! Just enter a start and end location and it will calculate the shortest possible indoor route for you.
 
-# GeoJSON Format Specifications
+## GeoJSON Format Specifications
+
+Internally, the list of buildings and the paths connecting them are stored in GeoJSON format in the `web/src/geojson` folder.
 
 To represent a certain building and floor, we define the `BuildingFloor` type as:
-```json
-{
+```typescript
+type BuildingFloor = {
     buildingCode: string,
     floor: string
 }
@@ -14,7 +16,7 @@ To represent a certain building and floor, we define the `BuildingFloor` type as
 
 The `properties` property for each feature is described as follows:
 
-# For `paths.json`
+## For `paths.json`
 
 This geoJSON file contains only `LineString` and `Point` features. It represents all possible connections between `BuildingFloor`s and will be converted into a Graph object on which Dijkstra's Algorithm is run.
 
@@ -31,7 +33,7 @@ Must be a `Point` feature.
 
 - `type` (required): `stairs`
 - `connections` (required): An array of objects of the form
-```json
+```typescript
 {
     buildingCode: string,
     floor: string,
@@ -52,13 +54,13 @@ Must be a `Point` feature.
 
 Used to represent two adjacent buildings connected without a door (essentially the same building), such as E7/E5. Has `type: "open"` and `start` and `end` representing the connected `BuildingFloor`s.
 
-## For `buildings.json`
+### For `buildings.json`
 
 This geoJSON file only contains `Point` features, where each point maps a building and (some, but not necessarily all of) its floors to a coordinate mentioned in `paths.json`, allowing the starting and ending point to be placed somewhere on the graph.
 
 - `type` (required): `building`
 - `building` (required): An object of the form
-```json
+```typescript
 {
     buildingCode: string,
     floors: string[]
