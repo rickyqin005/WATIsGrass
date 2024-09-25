@@ -35,7 +35,11 @@ function App() {
 
 	const [hasRoute, setHasRoute] = useState(false);
 	const [route, setRoute] = useState<Route | null>(null);
-	const [routeClear, setRouteClear] = useState<() => void>(() => () => {});
+	const [routeClear, setRouteClear] = useState<() => void>(() => () => { });
+
+
+	const [showInput, setShowInput] = useState(true);
+	const [showDirections, setShowDirections] = useState(false);
 
 
 	const buildingOptions = useMemo(getBuildingOptions(buildingFloorOptions), []);
@@ -62,7 +66,7 @@ function App() {
 
 	// update route on map
 	useEffect(() => {
-		if(hasRoute) {
+		if (hasRoute) {
 			console.log(route?.graphLocations);
 			routeClear();
 			setRouteClear(displayRoute(googleMap, route));
@@ -72,10 +76,12 @@ function App() {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if(googleMap && startLocation && endLocation) {
+		if (googleMap && startLocation && endLocation) {
 			console.log(`Start: ${startLocation.toString()}, End: ${endLocation.toString()}`);
 			setRoute(UWMap.calculateRoute(startLocation, endLocation, Dijkstra.COMPARATORS.get(tunnellingPreference.value)));
 			setHasRoute(true);
+			setShowDirections(true);
+			setShowInput(false);
 		}
 	};
 
@@ -84,111 +90,130 @@ function App() {
 
 			<div id="map" className="relative z-0 flex h-[100%] w-[100%]"></div>
 
-			<div id="header" className="absolute inset-y-[2%] h-[5%] z-10 flex items-center justify-center ">
-				<h1 className="text-3xl font-bold p-1 bg-white/75 shadow-2xl rounded-3xl">
+			<div id="header" className="absolute inset-y-[2%] h-[5%] z-10 flex items-center justify-center">
+				<h1 className="text-2xl md:text-3xl font-bold p-1 bg-white/75 shadow-2xl rounded-3xl">
 					WATIsGrass: UW Tunnels
 				</h1>
 			</div>
 
-			<div id="input" className="absolute inset-y-[9%] h-[10%] z-10">
-				<form className="flex items-center space-x-4 p-4 bg-gray-100 rounded shadow-md w-full " onSubmit={e => handleSubmit(e)}>
-					<div className="flex flex-col">
-						<label htmlFor="start-building" className="mb-1 text-gray-700 font-semibold">
-							Start Building
-						</label>
-						<Select
-							id="start-building"
-							name="start-building"
-							options={buildingOptions}
-							className="react-select-container"
-							classNamePrefix="react-select"
-							value={startBuilding}
-							onChange={newVal => setStartBuilding(newVal)}
-						/>
-					</div>
-					<div className="flex flex-col">
-						<label htmlFor="start-floor" className="mb-1 text-gray-700 font-semibold">
-							Start Floor
-						</label>
-						<Select
-							id="start-floor"
-							name="start-floor"
-							options={startFloorOptions}
-							className="react-select-container"
-							classNamePrefix="react-select"
-							value={startFloor}
-							onChange={newVal => setStartFloor(newVal)}
-						/>
-					</div>
-					<div className="flex flex-col">
-						<label htmlFor="end-building" className="mb-1 text-gray-700 font-semibold">
-							End Building
-						</label>
-						<Select
-							id="end-building"
-							name="end-building"
-							options={buildingOptions}
-							className="react-select-container"
-							classNamePrefix="react-select"
-							value={endBuilding}
-							onChange={newVal => setEndBuilding(newVal)}
-						/>
-					</div>
-					<div className="flex flex-col">
-						<label htmlFor="end-floor" className="mb-1 text-gray-700 font-semibold">
-							End Floor
-						</label>
-						<Select
-							id="end-floor"
-							name="end-floor"
-							options={endFloorOptions}
-							className="react-select-container"
-							classNamePrefix="react-select"
-							value={endFloor}
-							onChange={newVal => setEndFloor(newVal)}
-						/>
-					</div>
-					<div className="flex flex-col">
-						<label htmlFor="end-floor" className="mb-1 text-gray-700 font-semibold">
-							Tunnelling Preference
-						</label>
-						<Select
-							id="tunnelling-preference"
-							name="tunnelling-preference"
-							options={Dijkstra.COMPARATOR_OPTIONS}
-							className="react-select-container"
-							classNamePrefix="react-select"
-							value={tunnellingPreference}
-							onChange={newVal => setTunnellingPreference(newVal)}
-						/>
-					</div>
-					<input
-						type="submit"
-						value="Let's Tunnel!"
-						className="p-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 cursor-pointer disabled:opacity-50"
-						disabled={!startBuilding || !startFloor || !endBuilding || !endFloor}
-					/>
-				</form>
+			<div className="absolute top-[9%] z-10 flex space-x-2">
+				<button
+					onClick={() => setShowInput(!showInput)}
+					className="bg-blue-500 text-white font-semibold rounded-md px-3 py-1 hover:bg-blue-600 focus:outline-none"
+				>
+					{showInput ? 'Hide Input' : 'Show Input'}
+				</button>
+
+				{hasRoute && (
+					<button
+						onClick={() => setShowDirections(!showDirections)}
+						className="bg-blue-500 text-white font-semibold rounded-md px-3 py-1 hover:bg-blue-600 focus:outline-none"
+					>
+						{showDirections ? 'Hide Directions' : 'Show Directions'}
+					</button>
+				)}
 			</div>
 
-			{hasRoute && googleMap && Markers ?
-				<div id="directions" className="absolute left-[2%] top-[25%] max-h-[65%] overflow-y-auto z-20 py-4 bg-gray-200/85 shadow-2xl">
-					{route != null ? <>
-						<div className="pb-2">
-							{statsString(route).map(str =>
-								<div>{str}</div>
-							)}
+			{showInput && (
+				<div id="input" className="absolute inset-y-[15%] z-10 max-w-auto w-[90%] sm:w-auto">
+					<form className="flex flex-col sm:flex-row items-center space-y-4 sm:space-x-4 sm:space-y-0 p-4 bg-gray-100 rounded shadow-md w-full" onSubmit={handleSubmit}>
+						<div className="flex flex-col w-full sm:w-auto">
+							<label htmlFor="start-building" className="mb-1 text-gray-700 font-semibold">Start Building</label>
+							<Select
+								id="start-building"
+								name="start-building"
+								options={buildingOptions}
+								className="react-select-container"
+								classNamePrefix="react-select"
+								value={startBuilding}
+								onChange={newVal => setStartBuilding(newVal)}
+							/>
 						</div>
-						{route.graphLocations.slice(1).map((graphLocation, idx) =>
-							<DirectionsListItem googleMap={googleMap} graphLocation={graphLocation} order={idx+1} Markers={Markers} />)}
-					</>: 'No routes found :('}
+						<div className="flex flex-col w-full sm:w-auto">
+							<label htmlFor="start-floor" className="mb-1 text-gray-700 font-semibold">Start Floor</label>
+							<Select
+								id="start-floor"
+								name="start-floor"
+								options={startFloorOptions}
+								className="react-select-container"
+								classNamePrefix="react-select"
+								value={startFloor}
+								onChange={newVal => setStartFloor(newVal)}
+							/>
+						</div>
+						<div className="flex flex-col w-full sm:w-auto">
+							<label htmlFor="end-building" className="mb-1 text-gray-700 font-semibold">End Building</label>
+							<Select
+								id="end-building"
+								name="end-building"
+								options={buildingOptions}
+								className="react-select-container"
+								classNamePrefix="react-select"
+								value={endBuilding}
+								onChange={newVal => setEndBuilding(newVal)}
+							/>
+						</div>
+						<div className="flex flex-col w-full sm:w-auto">
+							<label htmlFor="end-floor" className="mb-1 text-gray-700 font-semibold">End Floor</label>
+							<Select
+								id="end-floor"
+								name="end-floor"
+								options={endFloorOptions}
+								className="react-select-container"
+								classNamePrefix="react-select"
+								value={endFloor}
+								onChange={newVal => setEndFloor(newVal)}
+							/>
+						</div>
+						<div className="flex flex-col w-full sm:w-auto">
+							<label htmlFor="tunnelling-preference" className="mb-1 text-gray-700 font-semibold">Tunnelling Preference</label>
+							<Select
+								id="tunnelling-preference"
+								name="tunnelling-preference"
+								options={Dijkstra.COMPARATOR_OPTIONS}
+								className="react-select-container"
+								classNamePrefix="react-select"
+								value={tunnellingPreference}
+								onChange={newVal => setTunnellingPreference(newVal)}
+							/>
+						</div>
+						<input
+							type="submit"
+							value="Let's Tunnel!"
+							className="p-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 cursor-pointer disabled:opacity-50"
+							disabled={!startBuilding || !startFloor || !endBuilding || !endFloor}
+						/>
+					</form>
 				</div>
-			: ''}
+			)}
 
-			<div id="footer" className="absolute bottom-[2%] z-10 bg-white/75">Made by Ricky Qin and Manasva Katyal, check out the Github repo{' '}
+			{hasRoute && googleMap && Markers && showDirections ?
+				<div className="flex justify-center">
+					<div
+						id="directions"
+						className="md:left-[2%] absolute center w-auto top-[25%] max-h-[65%] overflow-y-auto z-20 py-4 bg-gray-200/85 shadow-2xl"
+					>
+						{route != null ? <>
+							<div className="pb-2">
+								{statsString(route).map(str =>
+									<div>{str}</div>
+								)}
+							</div>
+							{route.graphLocations.slice(1).map((graphLocation, idx) =>
+								<DirectionsListItem googleMap={googleMap} graphLocation={graphLocation} order={idx + 1} Markers={Markers} />)}
+						</> : 'No routes found :('}
+					</div>
+				</div>
+				: ''}
+
+			<div id="footer" className="absolute bottom-[2%] z-10 bg-white/75 p-2 text-center">
+				Made by Ricky Qin and Manasva Katyal, check out the Github repo{' '}
 				<a
 					className="underline text-blue-600 hover:text-blue-800 visited:text-purple-600"
-					href="https://github.com/rickyqin005/WATIsGrass">here</a>!
+					href="https://github.com/rickyqin005/WATIsGrass"
+				>
+					here
+				</a>!
 			</div>
 		</div>
 	);
@@ -198,7 +223,7 @@ export default App;
 
 function statsString(route: Route) {
 	const end = route.graphLocations.at(-1) as GraphLocation;
-	const time = Math.round(end.time/60);
+	const time = Math.round(end.time / 60);
 	return [
 		`Time: ${time == 0 ? '<1' : time}min, Distance: ${Math.round(end.distance ?? 0).toLocaleString()}m`,
 		`⬆️${end.floorsAscended} floors, ⬇️ ${end.floorsDescended} floors`
