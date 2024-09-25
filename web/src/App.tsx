@@ -115,7 +115,7 @@ function App() {
 			</div>
 
 			{showInput && (
-				<div id="input" className="absolute inset-y-[22%] md:inset-y-[15%] z-10 max-w-auto w-[90%] sm:w-auto">
+				<div id="input" className="absolute inset-y-[22%] md:inset-y-[15%] h-[0%] z-10 max-w-auto w-[90%] sm:w-auto">
 					<form className="flex flex-col sm:flex-row items-center space-y-4 sm:space-x-4 sm:space-y-0 p-4 bg-gray-100 rounded shadow-md w-full" onSubmit={handleSubmit}>
 						<div className="flex flex-col w-full sm:w-auto">
 							<label htmlFor="start-building" className="mb-1 text-gray-700 font-semibold">Start Building</label>
