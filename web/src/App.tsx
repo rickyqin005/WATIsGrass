@@ -206,7 +206,7 @@ function App() {
 				</div>
 				: ''}
 
-			<div id="footer" className="absolute bottom-[2%] z-10 bg-white/75 p-2 text-center">
+			<div id="footer" className="absolute bottom-[2%] z-10 bg-white/75 p-2 text-center hidden md:block">
 				Made by Ricky Qin and Manasva Katyal, check out the Github repo{' '}
 				<a
 					className="underline text-blue-600 hover:text-blue-800 visited:text-purple-600"
