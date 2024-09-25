@@ -90,13 +90,13 @@ function App() {
 
 			<div id="map" className="relative z-0 flex h-[100%] w-[100%]"></div>
 
-			<div id="header" className="absolute inset-y-[2%] h-[5%] z-10 flex items-center justify-center">
+			<div id="header" className="absolute inset-y-[9%] md:inset-y-[2%] h-[5%] z-10 flex items-center justify-center">
 				<h1 className="text-2xl md:text-3xl font-bold p-1 bg-white/75 shadow-2xl rounded-3xl">
 					WATIsGrass: UW Tunnels
 				</h1>
 			</div>
 
-			<div className="absolute top-[9%] z-10 flex space-x-2">
+			<div className="absolute top-[16%] md:top-[9%] z-10 flex space-x-2">
 				<button
 					onClick={() => setShowInput(!showInput)}
 					className="bg-blue-500 text-white font-semibold rounded-md px-3 py-1 hover:bg-blue-600 focus:outline-none"
@@ -115,7 +115,7 @@ function App() {
 			</div>
 
 			{showInput && (
-				<div id="input" className="absolute inset-y-[15%] z-10 max-w-auto w-[90%] sm:w-auto">
+				<div id="input" className="absolute inset-y-[22%] md:inset-y-[15%] z-10 max-w-auto w-[90%] sm:w-auto">
 					<form className="flex flex-col sm:flex-row items-center space-y-4 sm:space-x-4 sm:space-y-0 p-4 bg-gray-100 rounded shadow-md w-full" onSubmit={handleSubmit}>
 						<div className="flex flex-col w-full sm:w-auto">
 							<label htmlFor="start-building" className="mb-1 text-gray-700 font-semibold">Start Building</label>
