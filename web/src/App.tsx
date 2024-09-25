@@ -99,7 +99,7 @@ function App() {
 			<div className="absolute top-[16%] md:top-[9%] z-10 flex space-x-2">
 				<button
 					onClick={() => setShowInput(!showInput)}
-					className="bg-blue-500 text-white font-semibold rounded-md px-3 py-1 hover:bg-blue-600 focus:outline-none"
+					className={`font-semibold rounded-md px-3 py-1 focus:outline-none ${showInput ? 'bg-red-500 hover:bg-red-600' : 'bg-blue-500 hover:bg-blue-600'} text-white`}
 				>
 					{showInput ? 'Hide Input' : 'Show Input'}
 				</button>
@@ -107,7 +107,7 @@ function App() {
 				{hasRoute && (
 					<button
 						onClick={() => setShowDirections(!showDirections)}
-						className="bg-blue-500 text-white font-semibold rounded-md px-3 py-1 hover:bg-blue-600 focus:outline-none"
+						className={`font-semibold rounded-md px-3 py-1 focus:outline-none ${showDirections ? 'bg-red-500 hover:bg-red-600' : 'bg-blue-500 hover:bg-blue-600'} text-white`}
 					>
 						{showDirections ? 'Hide Directions' : 'Show Directions'}
 					</button>
