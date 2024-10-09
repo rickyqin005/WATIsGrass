@@ -18,7 +18,8 @@ export default function useLoadMap() {
         const map = new lib.Map(document.getElementById("map") as HTMLElement, {
             center: { lat: 43.4705, lng: -80.542 },
             zoom: 17,
-            mapId: 'map'
+            mapId: 'map',
+            gestureHandling: "greedy"
         });
 
         console.log('loaded map');
