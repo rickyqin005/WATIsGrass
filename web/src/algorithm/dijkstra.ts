@@ -235,8 +235,8 @@ export class Dijkstra {
     static readonly FLOOR_DESCEND_SPEED = 14;
 
     static readonly COMPARATOR_OPTIONS = [
-        { value: 'COMPARE_BY_TIME', label: 'Where Possible'},
-		{ value: 'COMPARE_BY_TIME_OUTSIDE_THEN_TIME', label: 'At all costs'}
+        { value: 'COMPARE_BY_TIME_OUTSIDE_THEN_TIME', label: 'At all costs'},
+        { value: 'COMPARE_BY_TIME', label: 'Where Possible'}
     ];
 
     static readonly COMPARATORS = new Map<string, ICompare<GraphLocation>>([
