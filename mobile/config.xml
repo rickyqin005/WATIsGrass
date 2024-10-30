@@ -2,13 +2,14 @@
 <widget id="watisgrass.vercel.app" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>WATIsGrass</name>
     <description>A helpful guide to navigate UW's bridges and tunnels! Just enter a start and end location and it will calculate the shortest possible indoor route for you.</description>
-    <author email="dev@watisgrass.vercel.app" href="http://watisgrass.vercel.app/">
+    <author href="http://watisgrass.vercel.app/">
         Manasva Katyal, Ricky Qin
     </author>
     <content src="index.html" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
 
+    <!-- App Icon -->
     <icon src="resources/icons/icon-circle.png" />
     
     <platform name="android">
