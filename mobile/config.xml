@@ -9,19 +9,12 @@
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
 
+    <icon src="resources/icons/icon-circle.png" />
+    
     <platform name="android">
-        <!-- Android App Icons -->
-        <icon src="resources/icons/android/icon-48-mdpi.png" density="mdpi" />
-        <icon src="resources/icons/android/icon-72-hdpi.png" density="hdpi" />
-        <icon src="resources/icons/android/icon-96-xhdpi.png" density="xhdpi" />
-        <icon src="resources/icons/android/icon-144-xxhdpi.png" density="xxhdpi" />
-        <icon src="resources/icons/android/icon-192-xxxhdpi.png" density="xxxhdpi" />
-
         <!-- Android App Splash Screen -->
         <preference name="SplashScreen" value="screen" />
         <preference name="SplashScreenDelay" value="1000" />
-        <preference name="FadeSplashScreen" value="true" />
-        <preference name="FadeSplashScreenDuration" value="300" />
         <preference name="AndroidWindowSplashScreenAnimatedIcon" value="resources/screens/android/splash.png" />
     </platform>
 </widget>
