@@ -126,7 +126,10 @@ function App() {
 								className="react-select-container"
 								classNamePrefix="react-select"
 								value={startBuilding}
-								onChange={newVal => setStartBuilding(newVal)}
+								onChange={newVal => {
+									setStartBuilding(newVal);
+									setStartFloor(null);
+								}}
 							/>
 						</div>
 						<div className="flex flex-col w-full sm:w-auto">
@@ -150,7 +153,10 @@ function App() {
 								className="react-select-container"
 								classNamePrefix="react-select"
 								value={endBuilding}
-								onChange={newVal => setEndBuilding(newVal)}
+								onChange={newVal => {
+									setEndBuilding(newVal);
+									setEndFloor(null);
+								}}
 							/>
 						</div>
 						<div className="flex flex-col w-full sm:w-auto">
