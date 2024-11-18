@@ -265,6 +265,7 @@
         "building": {
           "buildingCode": "SLC",
           "floors": [
+            "B",
             "1",
             "2"
           ]

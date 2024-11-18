@@ -321,66 +321,6 @@
     {
       "type": "Feature",
       "properties": {
-        "type": "walkway",
-        "start": {
-          "buildingCode": "OUT",
-          "floor": "0"
-        },
-        "end": {
-          "buildingCode": "OUT",
-          "floor": "0"
-        }
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            -80.544003,
-            43.472963
-          ],
-          [
-            -80.543942,
-            43.472857
-          ],
-          [
-            -80.543894,
-            43.472787
-          ],
-          [
-            -80.543755,
-            43.472721
-          ],
-          [
-            -80.543599,
-            43.472654
-          ],
-          [
-            -80.543439,
-            43.472606
-          ],
-          [
-            -80.543193,
-            43.472602
-          ],
-          [
-            -80.542769,
-            43.472609
-          ],
-          [
-            -80.542576,
-            43.472622
-          ],
-          [
-            -80.542442,
-            43.472672
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": "0de243b2ab436f33eeb25dcac60b9eb8"
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "type": "door",
         "start": {
           "buildingCode": "DWE",
@@ -624,6 +564,28 @@
         "type": "LineString"
       },
       "id": "15b7279bbdd2a911d465dfdd5c2e854f"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "door",
+        "start": {
+          "buildingCode": "MC",
+          "floor": "1"
+        },
+        "end": {
+          "buildingCode": "OUT",
+          "floor": "0"
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          -80.543474,
+          43.471974
+        ],
+        "type": "Point"
+      },
+      "id": "17db269fb4d47b1af60809f883fd60e4"
     },
     {
       "type": "Feature",
@@ -1843,6 +1805,58 @@
     {
       "type": "Feature",
       "properties": {
+        "type": "walkway",
+        "start": {
+          "buildingCode": "OUT",
+          "floor": "0"
+        },
+        "end": {
+          "buildingCode": "OUT",
+          "floor": "0"
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            -80.543474,
+            43.471974
+          ],
+          [
+            -80.543318,
+            43.472036
+          ],
+          [
+            -80.543371,
+            43.472129
+          ],
+          [
+            -80.543346,
+            43.472182
+          ],
+          [
+            -80.542634,
+            43.472438
+          ],
+          [
+            -80.542647,
+            43.472545
+          ],
+          [
+            -80.54261,
+            43.472614
+          ],
+          [
+            -80.542442,
+            43.472672
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": "353c4983a4b0ed5c83c3d8879f1af4cf"
+    },
+    {
+      "type": "Feature",
+      "properties": {
         "type": "hallway",
         "start": {
           "buildingCode": "EV2",
@@ -1986,8 +2000,8 @@
             43.47331
           ],
           [
-            -80.545638,
-            43.472975
+            -80.545604,
+            43.472939
           ],
           [
             -80.545548,
@@ -2623,42 +2637,6 @@
       "geometry": {
         "coordinates": [
           [
-            -80.543111,
-            43.472747
-          ],
-          [
-            -80.543097,
-            43.472725
-          ],
-          [
-            -80.543183,
-            43.472691
-          ],
-          [
-            -80.543193,
-            43.472602
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": "4a5b32f9f50343e1ed0c75b2350dd88f"
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "walkway",
-        "start": {
-          "buildingCode": "OUT",
-          "floor": "0"
-        },
-        "end": {
-          "buildingCode": "OUT",
-          "floor": "0"
-        }
-      },
-      "geometry": {
-        "coordinates": [
-          [
             -80.545,
             43.472116
           ],
@@ -2671,8 +2649,8 @@
             43.472244
           ],
           [
-            -80.544516,
-            43.472281
+            -80.54447,
+            43.472285
           ],
           [
             -80.544436,
@@ -3846,6 +3824,50 @@
     {
       "type": "Feature",
       "properties": {
+        "type": "walkway",
+        "start": {
+          "buildingCode": "OUT",
+          "floor": "0"
+        },
+        "end": {
+          "buildingCode": "OUT",
+          "floor": "0"
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            -80.544241,
+            43.472655
+          ],
+          [
+            -80.54426,
+            43.472566
+          ],
+          [
+            -80.54438,
+            43.472459
+          ],
+          [
+            -80.544425,
+            43.472411
+          ],
+          [
+            -80.544466,
+            43.472345
+          ],
+          [
+            -80.54447,
+            43.472285
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": "6a062206a0aeec94b41452fe206320c9"
+    },
+    {
+      "type": "Feature",
+      "properties": {
         "type": "stairs",
         "connections": [
           {
@@ -4014,26 +4036,6 @@
       "geometry": {
         "coordinates": [
           [
-            -80.543353,
-            43.472696
-          ],
-          [
-            -80.54323,
-            43.472741
-          ],
-          [
-            -80.543172,
-            43.472763
-          ],
-          [
-            -80.543193,
-            43.472793
-          ],
-          [
-            -80.542624,
-            43.472995
-          ],
-          [
             -80.542465,
             43.472764
           ],
@@ -4101,8 +4103,8 @@
             43.472915
           ],
           [
-            -80.544724,
-            43.472773
+            -80.544733,
+            43.47277
           ],
           [
             -80.544806,
@@ -4212,6 +4214,34 @@
         "type": "LineString"
       },
       "id": "6e2c123ac8cae587bb64df1a8a2596df"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "walkway",
+        "start": {
+          "buildingCode": "OUT",
+          "floor": "0"
+        },
+        "end": {
+          "buildingCode": "OUT",
+          "floor": "0"
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            -80.54426,
+            43.472566
+          ],
+          [
+            -80.544086,
+            43.472628
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": "6efd147711a2663ecfe71099e2198c6a"
     },
     {
       "type": "Feature",
@@ -5027,6 +5057,52 @@
         "type": "stairs",
         "connections": [
           {
+            "buildingCode": "MC",
+            "floor": "1",
+            "level": 0
+          },
+          {
+            "buildingCode": "MC",
+            "floor": "2",
+            "level": 1
+          },
+          {
+            "buildingCode": "MC",
+            "floor": "3",
+            "level": 2
+          },
+          {
+            "buildingCode": "MC",
+            "floor": "4",
+            "level": 3
+          },
+          {
+            "buildingCode": "MC",
+            "floor": "5",
+            "level": 4
+          },
+          {
+            "buildingCode": "MC",
+            "floor": "6",
+            "level": 5
+          }
+        ]
+      },
+      "geometry": {
+        "coordinates": [
+          -80.543474,
+          43.471974
+        ],
+        "type": "Point"
+      },
+      "id": "8be58b4ed800ec9925a5fd7153a4ef51"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "stairs",
+        "connections": [
+          {
             "buildingCode": "E2",
             "floor": "1",
             "level": 0.5
@@ -5190,13 +5266,18 @@
         "connections": [
           {
             "buildingCode": "SLC",
-            "floor": "1",
+            "floor": "B",
             "level": 0
           },
           {
             "buildingCode": "SLC",
-            "floor": "2",
+            "floor": "1",
             "level": 1
+          },
+          {
+            "buildingCode": "SLC",
+            "floor": "2",
+            "level": 2
           }
         ]
       },
@@ -5411,72 +5492,6 @@
     {
       "type": "Feature",
       "properties": {
-        "type": "stairs",
-        "connections": [
-          {
-            "buildingCode": "DC",
-            "floor": "1",
-            "level": 0
-          },
-          {
-            "buildingCode": "DC",
-            "floor": "2",
-            "level": 1
-          }
-        ]
-      },
-      "geometry": {
-        "coordinates": [
-          -80.54323,
-          43.472741
-        ],
-        "type": "Point"
-      },
-      "id": "9ce1eea6937bd76bbf281a9037ec5f83"
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "hallway",
-        "start": {
-          "buildingCode": "DC",
-          "floor": "3"
-        },
-        "end": {
-          "buildingCode": "DC",
-          "floor": "3"
-        }
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            -80.543353,
-            43.472696
-          ],
-          [
-            -80.543172,
-            43.472763
-          ],
-          [
-            -80.543192,
-            43.472793
-          ],
-          [
-            -80.542624,
-            43.472994
-          ],
-          [
-            -80.542465,
-            43.472764
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": "a03547e928eaca87e972e22b14a8a47a"
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "type": "tunnel",
         "start": {
           "buildingCode": "C2",
@@ -5664,6 +5679,50 @@
         "type": "LineString"
       },
       "id": "aa7e2298e745debc61448fe2c955b2f7"
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "type": "walkway",
+        "start": {
+          "buildingCode": "OUT",
+          "floor": "0"
+        },
+        "end": {
+          "buildingCode": "OUT",
+          "floor": "0"
+        }
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            -80.544307,
+            43.472754
+          ],
+          [
+            -80.544502,
+            43.472777
+          ],
+          [
+            -80.544733,
+            43.47277
+          ],
+          [
+            -80.544974,
+            43.472792
+          ],
+          [
+            -80.545542,
+            43.472931
+          ],
+          [
+            -80.545604,
+            43.472939
+          ]
+        ],
+        "type": "LineString"
+      },
+      "id": "aba30992d29f13730ee6e7246a74b948"
     },
     {
       "type": "Feature",
@@ -6434,12 +6493,32 @@
       "geometry": {
         "coordinates": [
           [
-            -80.543755,
-            43.472721
+            -80.544003,
+            43.472963
           ],
           [
-            -80.543776,
-            43.472589
+            -80.543951,
+            43.472882
+          ],
+          [
+            -80.544307,
+            43.472754
+          ],
+          [
+            -80.544241,
+            43.472655
+          ],
+          [
+            -80.544086,
+            43.472628
+          ],
+          [
+            -80.543957,
+            43.472571
+          ],
+          [
+            -80.543764,
+            43.472565
           ],
           [
             -80.543739,
@@ -6449,28 +6528,6 @@
         "type": "LineString"
       },
       "id": "c09da635aa2ab592191c3b1be6e7235a"
-    },
-    {
-      "type": "Feature",
-      "properties": {
-        "type": "door",
-        "start": {
-          "buildingCode": "DC",
-          "floor": "1"
-        },
-        "end": {
-          "buildingCode": "OUT",
-          "floor": "0"
-        }
-      },
-      "geometry": {
-        "coordinates": [
-          -80.543111,
-          43.472747
-        ],
-        "type": "Point"
-      },
-      "id": "c4d9e4125f58e8e1336c3f2df26f612f"
     },
     {
       "type": "Feature",
@@ -6908,34 +6965,6 @@
     {
       "type": "Feature",
       "properties": {
-        "type": "walkway",
-        "start": {
-          "buildingCode": "OUT",
-          "floor": "0"
-        },
-        "end": {
-          "buildingCode": "OUT",
-          "floor": "0"
-        }
-      },
-      "geometry": {
-        "coordinates": [
-          [
-            -80.543599,
-            43.472654
-          ],
-          [
-            -80.543776,
-            43.472589
-          ]
-        ],
-        "type": "LineString"
-      },
-      "id": "d31bed0418682f7e878c18a23e2541f9"
-    },
-    {
-      "type": "Feature",
-      "properties": {
         "type": "hallway",
         "start": {
           "buildingCode": "SLC",
@@ -7363,14 +7392,6 @@
           [
             -80.542465,
             43.472764
-          ],
-          [
-            -80.54259,
-            43.472943
-          ],
-          [
-            -80.543111,
-            43.472747
           ]
         ],
         "type": "LineString"
