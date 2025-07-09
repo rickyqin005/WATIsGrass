@@ -8,7 +8,9 @@ export type OptionType = {
 };
 
 export function getStartEndLocations() {
-    return new Map<string, Location>(buildings.features.map(building =>
+    return new Map<string, Location>(buildings.features
+        .filter(feature => feature.type == 'building')
+        .map(building =>
         building.properties.building.floors.map(floor => {
             const buildingCode = building.properties.building.buildingCode;
             return [new BuildingFloor({ buildingCode, floor }).toString(), new Location(
@@ -21,7 +23,9 @@ export function getStartEndLocations() {
 
 export function getBuildingFloorOptions() {
     const map = new Map<string, string[]>();
-    buildings.features.forEach(building => {
+    buildings.features
+    .filter(feature => feature.type == 'building')
+    .forEach(building => {
         const buildingCode = building.properties.building.buildingCode;
         map.set(buildingCode, (map.get(buildingCode) ?? []).concat(building.properties.building.floors));
     });

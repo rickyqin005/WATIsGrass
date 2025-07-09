@@ -82,6 +82,17 @@ export class Edge {
     }
 };
 
+export type GeoJsonBuildingOutline = {
+    type: 'Feature',
+    properties: {
+        type: 'building-outline',
+        default: BuildingFloor
+    }
+    geometry: {
+        coordinates: [number, number][][],
+        type: 'Polygon'
+    }
+};
 export type GeoJsonLine = {
     type: 'Feature',
     properties: {
@@ -136,6 +147,6 @@ export type GeoJsonBuilding = {
     }
 };
 export type GeoJson = {
-    features: (GeoJsonLine | GeoJsonStairs | GeoJsonDoorOrOpen)[],
+    features: (GeoJsonBuildingOutline | GeoJsonLine | GeoJsonStairs | GeoJsonDoorOrOpen)[],
     type: 'FeatureCollection'
 };
