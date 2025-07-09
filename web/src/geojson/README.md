@@ -52,7 +52,9 @@ Used to represent two adjacent buildings connected without a door (essentially t
 
 ### For `buildings.json`
 
-This geoJSON file only contains `Point` features, where each point maps a building and (some, but not necessarily all of) its floors to a coordinate mentioned in `paths.json`, allowing the starting and ending point to be placed somewhere on the graph.
+This geoJSON file consists of `Point` and `Polygon` features.
+
+`Point` features map a building and (some, but not necessarily all of) its floors to a coordinate mentioned in `paths.json`, allowing the starting and ending point to be placed somewhere on the graph.
 
 - `type` (required): `building`
 - `building` (required): An object of the form
@@ -62,3 +64,7 @@ This geoJSON file only contains `Point` features, where each point maps a buildi
     floors: string[]
 }
 ```
+
+`Polygon` features map a polygon (displayed on the map) to a prescribed `BuildingFloor`. This allows users to populate the start/end location fields by clicking on the map instead of entering it manually.
+- `type` (required): `building-outline`
+- `default` (required): A `BuildingFloor`
