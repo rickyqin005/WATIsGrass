@@ -9,7 +9,7 @@ export type OptionType = {
 
 export function getStartEndLocations() {
     return new Map<string, Location>(buildings.features
-        .filter(feature => feature.type == 'building')
+        .filter(feature => feature.properties.type == 'building')
         .map(building =>
         building.properties.building.floors.map(floor => {
             const buildingCode = building.properties.building.buildingCode;
@@ -24,7 +24,7 @@ export function getStartEndLocations() {
 export function getBuildingFloorOptions() {
     const map = new Map<string, string[]>();
     buildings.features
-    .filter(feature => feature.type == 'building')
+    .filter(feature => feature.properties.type == 'building')
     .forEach(building => {
         const buildingCode = building.properties.building.buildingCode;
         map.set(buildingCode, (map.get(buildingCode) ?? []).concat(building.properties.building.floors));
