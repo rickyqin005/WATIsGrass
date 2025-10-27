@@ -1,11 +1,11 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Coordinate } from "../algorithm/dijkstra";
 import { GraphLocation } from "../algorithm/dijkstra";
 import formatPolyLine from "../map/formatPolyLine";
 import { GoogleMapsLibrary } from "../map/GoogleMapsLibrary";
 
-export default function DirectionsListItem({ graphLocation, googleMap, order, Markers }:
-    { graphLocation: GraphLocation, googleMap: any, order: number, Markers: GoogleMapsLibrary }) {
+export default function DirectionsListItem({ graphLocation, googleMap, order, onlyHighlightOnHover, Markers }:
+    { graphLocation: GraphLocation, googleMap: any, order: number, onlyHighlightOnHover: boolean, Markers: GoogleMapsLibrary }) {
     const highlightedSegment = useMemo(() => {
         if(graphLocation.path.length == 1) {
             return [
@@ -31,10 +31,17 @@ export default function DirectionsListItem({ graphLocation, googleMap, order, Ma
                 zIndex: 2
             }),
         ]
-    }, []);
-    return <div className="flex text-left px-5 hover:bg-gray-300/85"
-        onMouseEnter={() => highlightedSegment.forEach(segment => segment.setMap(googleMap))}
-        onMouseLeave={() => highlightedSegment.forEach(segment => segment.setMap(null))}>
+    }, [graphLocation]);
+    useEffect(() => {
+        if(!onlyHighlightOnHover) {
+            highlightedSegment.forEach(segment => segment.setMap(googleMap));
+            return () => highlightedSegment.forEach(segment => segment.setMap(null));
+        }
+    }, [graphLocation, onlyHighlightOnHover]);
+    
+    return <div className="flex text-left px-2 hover:bg-gray-300/85"
+        onMouseEnter={onlyHighlightOnHover ? () => highlightedSegment.forEach(segment => segment.setMap(googleMap)) : undefined}
+        onMouseLeave={onlyHighlightOnHover ? () => highlightedSegment.forEach(segment => segment.setMap(null)) : undefined}>
         <div className="min-w-7">{`${order}.`}</div>
         <div>
             {graphLocation.toDirectionsString()}
