@@ -95,7 +95,7 @@ function App() {
 
 			<div id="map" className="z-0 relative h-[100%] w-[100%]"></div>
 
-			<div id="input-region" className="z-10 absolute inset-y-[2%] grid grid-cols-1 gap-2 place-self-start">
+			<div id="input-region" className="z-10 absolute inset-y-[2%] flex flex-col gap-2 place-self-start">
 
 				<h1 id="header" className="place-self-center text-xl md:text-3xl font-bold px-2 py-1 bg-white/75 shadow-2xl">
 					WATIsGrass: UW Tunnels
@@ -120,7 +120,7 @@ function App() {
 				</div>
 
 				{showInput && (
-					<div id="input" className="max-w-auto w-[90%] sm:w-auto">
+					<div id="input" className="self-center max-w-auto w-[90%] sm:w-auto">
 						<form className="flex flex-col sm:flex-row items-center space-y-3 sm:space-x-4 sm:space-y-0 p-4 bg-gray-100 rounded shadow-md w-full" onSubmit={handleSubmit}>
 							<div className="flex flex-col w-full sm:w-auto">
 								<label htmlFor="start-building" className="mb-1 text-gray-700 font-semibold">Start Building</label>
