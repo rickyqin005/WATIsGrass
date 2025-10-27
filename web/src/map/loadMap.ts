@@ -16,10 +16,12 @@ export default function useLoadMap() {
 
     useGoogleMapsLibrary("maps", lib => {
         const map = new lib.Map(document.getElementById("map") as HTMLElement, {
-            center: { lat: 43.4705, lng: -80.542 },
-            zoom: 17,
+            center: { lat: 43.4718, lng: -80.543 },
+            zoom: 16,
             mapId: 'map',
-            gestureHandling: "greedy"
+            gestureHandling: "greedy",
+            mapTypeControl: false,
+            streetViewControl: false
         });
 
         console.log('loaded map');

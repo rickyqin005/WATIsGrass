@@ -21,7 +21,7 @@ export default function useBaseGeoJson(googleMap: any, geoJson: GeoJson, hasRout
 
 	useEffect(() => {
 		baseGeoJson.forEach(feature => {
-			feature.setOptions({ strokeOpacity: (hasRoute ? 0.25 : 1)});
+			feature.setOptions({ strokeOpacity: (hasRoute ? 0.25 : 0.6)});
 			feature.setMap(googleMap);
 		});
 	}, [baseGeoJson, hasRoute]);

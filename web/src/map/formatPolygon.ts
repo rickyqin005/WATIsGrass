@@ -4,8 +4,8 @@ export default function formatPolygon(path: [number, number][]): google.maps.Pol
         fillColor: 'black',
         fillOpacity: 0.15,
         strokeColor: 'black',
-        strokeWeight: 0.5,
-        strokeOpacity: 0.5,
+        strokeWeight: 0.4,
+        strokeOpacity: 1,
         zIndex: -1
     };
 }
