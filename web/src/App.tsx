@@ -30,7 +30,7 @@ function App() {
 	const [endBuilding, setEndBuilding] = useState<SingleValue<OptionType>>(null);
 	const [endFloor, setEndFloor] = useState<SingleValue<OptionType>>(null);
 	const [endLocationMarker, endStartLocationMarker] = useState<google.maps.marker.AdvancedMarkerElement | null>(null);
-	const [tunnellingPreference, setTunnellingPreference] = useState<OptionType>(Dijkstra.COMPARATOR_OPTIONS[0]);
+	const [tunnellingFilter, setTunnellingFilter] = useState<OptionType>(Dijkstra.ROUTE_FILTER_OPTIONS[0]);
 
 
 	const [hasRoute, setHasRoute] = useState(false);
@@ -52,7 +52,7 @@ function App() {
 	const startLocation = useMemo(updateLocation(
 		startBuilding, startFloor, startEndLocations, startLocationMarker, setStartLocationMarker, route, setRoute,
 		routeClear, setRouteClear, setHasRoute, googleMap, Markers
-	), [startBuilding, startFloor, tunnellingPreference]);
+	), [startBuilding, startFloor, tunnellingFilter]);
 	const endLocation = useMemo(updateLocation(
 		endBuilding, endFloor, startEndLocations, endLocationMarker, endStartLocationMarker, route, setRoute,
 		routeClear, setRouteClear, setHasRoute, googleMap, Markers,
@@ -61,7 +61,7 @@ function App() {
 			borderColor: '#196619',
 			glyphColor: '#196619'
 		}).element : undefined
-	), [endBuilding, endFloor, tunnellingPreference]);
+	), [endBuilding, endFloor, tunnellingFilter]);
 
 	useBaseGeoJson(googleMap, geoJson, hasRoute);
 
@@ -83,7 +83,8 @@ function App() {
 		e.preventDefault();
 		if (googleMap && startLocation && endLocation) {
 			console.log(`Start: ${startLocation.toString()}, End: ${endLocation.toString()}`);
-			setRoute(UWMap.calculateRoute(startLocation, endLocation, Dijkstra.COMPARATORS.get(tunnellingPreference.value)));
+			setRoute(UWMap.calculateRoute(startLocation, endLocation, undefined,
+				Dijkstra.ROUTE_FILTERS.get(tunnellingFilter.value)));
 			setHasRoute(true);
 			setShowDirections(true);
 			setShowInput(false);
@@ -177,15 +178,15 @@ function App() {
 								/>
 							</div>
 							<div className="flex flex-col w-full sm:w-auto">
-								<label htmlFor="tunnelling-preference" className="mb-1 text-gray-700 font-semibold">Tunnelling Preference</label>
+								<label htmlFor="tunnelling-preference" className="mb-1 text-gray-700 font-semibold">Preferences</label>
 								<Select
 									id="tunnelling-preference"
 									name="tunnelling-preference"
-									options={Dijkstra.COMPARATOR_OPTIONS}
+									options={Dijkstra.ROUTE_FILTER_OPTIONS}
 									className="react-select-container"
 									classNamePrefix="react-select"
-									value={tunnellingPreference}
-									onChange={newVal => setTunnellingPreference(newVal)}
+									value={tunnellingFilter}
+									onChange={newVal => setTunnellingFilter(newVal)}
 								/>
 							</div>
 							<input
@@ -229,7 +230,7 @@ function App() {
 			{hasRoute && googleMap && Markers && showDirections ?
 				<div
 					id="directions"
-					className="z-20 invisible md:visible absolute left-[2%] w-auto top-[25%] max-h-[20%] md:max-h-[65%] overflow-y-auto p-4 bg-gray-200/85 shadow-2xl">
+					className="z-20 invisible md:visible absolute left-[2%] w-auto top-[25%] max-h-[20%] md:max-h-[65%] text-lg overflow-y-auto p-4 bg-gray-200/85 shadow-2xl">
 					{route != null ? <>
 						<div className="pb-2">
 							{statsString(route).map(str =>

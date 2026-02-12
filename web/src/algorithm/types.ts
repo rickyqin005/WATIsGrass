@@ -108,7 +108,7 @@ export type GeoJsonLine = {
 export type GeoJsonStairs = {
     type: 'Feature',
     properties: {
-        type: 'stairs',
+        type: 'stairs' | 'elevator',
         connections: {
             buildingCode: string,
             floor: string,

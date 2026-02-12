@@ -64,7 +64,7 @@ export class AdjacencyList {
         });
 
         // add 'stairs', include all n*(n-1)/2 pairs as edges
-        (geoJson.features.filter(f => f.properties.type == 'stairs') as GeoJsonStairs[])
+        (geoJson.features.filter(f => f.properties.type == 'stairs' || f.properties.type == 'elevator') as GeoJsonStairs[])
         .forEach(f => {
             const coord = new Coordinate(f.geometry.coordinates);
             const buildingFloors = (f.properties.connections ?? []).map(connection => new BuildingFloor(connection));
@@ -149,23 +149,28 @@ export class GraphLocation {
         this.floorsDescended = floorsDesc;
     }
 
-    toDirectionsString() {
+    toDirectionsString(): [string, string] {
         const endBuilding = this.location.buildingFloor; // the building at the end of this segment
-        let str = '';
+        let str: [string, string] = ['', ''];
         if(this.travelMode == 'open') {
-            str = `Continue into ${endBuilding.toDirectionString()}`;
+            str = ['', `Continue into ${endBuilding.toDirectionString()}`];
         } else if(this.travelMode == 'door') {
-            str = `Go through the door to ${endBuilding.toDirectionString()}`;
+            str = ['', `Go through the door to ${endBuilding.toDirectionString()}`];
         } else if(this.travelMode == 'stairs') {
-            if(this.floorChange == 0) str = `Go through the stairwell to ${endBuilding.toDirectionString()}`;
-            else str = `Go ${this.floorChange > 0 ? '⬆️' : '⬇️'} ${Math.abs(this.floorChange)} floor` + 
-            `${Math.abs(this.floorChange) == 1 ? '' : 's'} to ${endBuilding.toDirectionString()}`;
+            if(this.floorChange == 0) str = ['', `Go through the stairwell to ${endBuilding.toDirectionString()}`];
+            else str = ['Stairs', `${this.floorChange > 0 ? '⬆️' : '⬇️'} ${Math.abs(this.floorChange)} floor` + 
+            `${Math.abs(this.floorChange) == 1 ? '' : 's'} to ${endBuilding.toDirectionString()}`];
+        } else if(this.travelMode == 'elevator') {
+            str = ['Elevator', `${this.floorChange > 0 ? '⬆️' : '⬇️'} ${Math.abs(this.floorChange)} floor` + 
+            `${Math.abs(this.floorChange) == 1 ? '' : 's'} to ${endBuilding.toDirectionString()}`];
         } else if(this.travelMode == 'hallway') {
-            str = `Take the ${this.travelMode} on ${endBuilding.toDirectionString()}`;
+            str = ['', `Take the ${this.travelMode} on ${endBuilding.toDirectionString()}`];
         } else if(this.travelMode == 'walkway') {
-            str = `Go outside and walk to ${endBuilding.toDirectionString()}`;
+            str = ['Outdoor', `Walk to ${endBuilding.toDirectionString()}`];
         } else {
-            str = `Take the ${this.travelMode} to ${endBuilding.toDirectionString()}`;
+            str = [(this.travelMode == 'bridge' ? 'Bridge' :
+                this.travelMode == 'tunnel' ? 'Tunnel' : ''
+            ), `Take the ${this.travelMode} to ${endBuilding.toDirectionString()}`];
         }
         return str;
     }
@@ -254,6 +259,23 @@ export class Dijkstra {
         ]
     ]);
 
+    static readonly ROUTE_FILTER_OPTIONS = [
+        { value: 'NO_FILTER', label: 'At all costs'},
+        { value: 'ACCESSIBLE', label: '♿ Accessible'}
+    ]
+
+    static readonly ROUTE_FILTERS = new Map<string, (a: Edge) => boolean>([
+        [
+            'NO_FILTER',
+            (a: Edge) => true
+        ], [
+            'ACCESSIBLE',
+            (a: Edge) => {
+                return a.type != 'stairs';
+            }
+        ]
+    ]);
+
     private readonly _dis: Map<String, number>;
     readonly adjList: AdjacencyList;
 
@@ -267,7 +289,8 @@ export class Dijkstra {
      * If start and end are equal, a Route is returned with a single GraphLocation.
      */
     calculateRoute(start: Location, end: Location,
-        comparator = Dijkstra.COMPARE_BY_TIME as ICompare<GraphLocation>): Route | null {
+        comparator = Dijkstra.COMPARATORS.get('COMPARE_BY_TIME_OUTSIDE_THEN_TIME') as ICompare<GraphLocation>,
+        routeFilter = (a: Edge) => true): Route | null {
         const pq = new PriorityQueue<GraphLocation>(comparator);
         this._dis.clear();
         pq.push(new GraphLocation(start, [start.coordinate.toArray()]));
@@ -275,7 +298,8 @@ export class Dijkstra {
         while(!pq.isEmpty()) {
             const curr = pq.pop();
             if(curr.location.equals(end)) return new Route(curr);
-            this.adjList.get(curr.location).forEach(edge => {
+            this.adjList.get(curr.location)
+            .filter(routeFilter).forEach(edge => {
                 if(curr.distance + edge.length < this._getDistance(edge.end)) {
                     const edgeTime = edge.length/Dijkstra.WALKING_SPEED + Math.abs(edge.floorChange)*(edge.floorChange > 0 ? Dijkstra.FLOOR_ASCEND_SPEED : Dijkstra.FLOOR_DESCEND_SPEED);
                     pq.push(new GraphLocation(
