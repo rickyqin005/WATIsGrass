@@ -38,11 +38,15 @@ Must be a `Point` feature.
 ```
 Note that the `level` property represents the relative height of a floor (can be an integer or end with `.5`). For instance, going from a floor with level `1.5` to a floor with level `4` means going up by `4 - 1.5 = 2.5` floors.
 
+### Elevator
+
+Identical to stairs, except with a `type` property of `elevator`.
+
 ### Door
 
 Must be a `Point` feature.
 
-Used to represent two adjacent buildings connected by a door. Has `type: "door"` and `start` and `end` representing the connected `BuildingFloor`s.
+Used to represent two adjacent buildings connected by a door or connect a floor to somewhere outside. Has `type: "door"` and `start` and `end` representing the connected `BuildingFloor`s.
 
 ### Open
 
