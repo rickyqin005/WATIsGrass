@@ -2,7 +2,7 @@ export default function formatPolygon(path: [number, number][]): google.maps.Pol
     return {
         paths: path.map(point => { return { lat: point[1], lng: point[0] } }) as any[],
         fillColor: 'black',
-        fillOpacity: 0.15,
+        fillOpacity: 0.12,
         strokeColor: 'black',
         strokeWeight: 0.4,
         strokeOpacity: 1,

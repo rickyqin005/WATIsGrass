@@ -12,7 +12,7 @@ export default function useLoadMap() {
             // Add other bootstrap parameters as needed, using camel case.
         });
     }, []);
-    
+
 
     useGoogleMapsLibrary("maps", lib => {
         const map = new lib.Map(document.getElementById("map") as HTMLElement, {
@@ -21,7 +21,16 @@ export default function useLoadMap() {
             mapId: 'map',
             gestureHandling: "greedy",
             mapTypeControl: false,
-            streetViewControl: false
+            streetViewControl: false,
+            minZoom: 14,
+            restriction: {
+                latLngBounds: {
+                    north: 43.6,
+                    south: 43.3,
+                    east: -80.3,
+                    west: -80.7
+                }
+            }
         });
 
         console.log('loaded map');

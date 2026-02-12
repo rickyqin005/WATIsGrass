@@ -104,7 +104,7 @@ function App() {
 				<div className="">
 					<button
 						onClick={() => setShowInput(!showInput)}
-						className={`font-semibold rounded-md px-3 py-1 focus:outline-none ${showInput ? 'bg-red-500 hover:bg-red-600' : 'bg-blue-500 hover:bg-blue-600'} text-white`}
+						className={`font-semibold rounded-md px-3 py-1 m-2 focus:outline-none ${showInput ? 'bg-red-500 hover:bg-red-600' : 'bg-blue-500 hover:bg-blue-600'} text-white`}
 					>
 						{showInput ? 'Hide Input' : 'Show Input'}
 					</button>
@@ -242,7 +242,7 @@ function App() {
 				</div>
 			: ''}
 
-			<div id="footer" className="absolute bottom-[1%] z-10 bg-white/75 p-1 text-center hidden md:block">
+			<div id="footer" className="absolute bottom-[1%] z-10 bg-white/75 p-1 text-center text-sm hidden md:block">
 				Comments/suggestions? Contact us at{' '}
 				<a
 					className="underline text-blue-600 hover:text-blue-800 visited:text-purple-600"
